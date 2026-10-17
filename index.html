@@ -15,7 +15,22 @@
             --success: #22c55e;
             --error: #ef4444;
             --accent: #0284c7;
+            --subtext: #64748b;
         }
+
+        [data-theme="dark"] {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+            --success: #10b981;
+            --error: #f43f5e;
+            --accent: #38bdf8;
+            --subtext: #94a3b8;
+        }
+
         body {
             font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
@@ -26,23 +41,41 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 850px;
             background: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            position: relative;
+            transition: background 0.3s;
         }
-        h1 { font-size: 1.5rem; margin-top: 0; color: var(--primary); text-align: center; }
-        .subtitle { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+        header-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        h1 { font-size: 1.5rem; margin: 0; color: var(--primary); text-align: center; flex-grow: 1; }
+        .subtitle { text-align: center; color: var(--subtext); font-size: 0.9rem; margin-bottom: 25px; }
         
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            position: absolute;
+            top: 25px;
+            right: 25px;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
         /* Menu Selectors */
         .menu-section { display: flex; flex-direction: column; gap: 15px; }
-        .menu-group { background: #f1f5f9; padding: 15px; border-radius: 10px; }
-        .menu-group h3 { margin-top: 0; font-size: 1rem; color: #334155; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .menu-group { background: var(--bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
+        .menu-group h3 { margin-top: 0; font-size: 1.1rem; color: var(--text); }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         
         button {
             background: var(--primary);
@@ -56,33 +89,34 @@
             font-size: 0.95rem;
         }
         button:hover { background: var(--primary-hover); }
-        button.secondary { background: #64748b; }
+        button.secondary { background: var(--subtext); }
         button.secondary:hover { background: #475569; }
         button.accent { background: var(--accent); grid-column: span 2; }
-        button.accent:hover { background: #0369a1; }
-        button.back-btn { background: #e2e8f0; color: #334155; margin-bottom: 15px; padding: 8px 14px; font-size: 0.85rem; }
-        button.back-btn:hover { background: #cbd5e1; }
+        button.accent:hover { background: #0284c7; }
+        button.back-btn { background: var(--border); color: var(--text); margin-bottom: 15px; padding: 8px 14px; font-size: 0.85rem; }
+        button.back-btn:hover { background: var(--subtext); color: white; }
 
         /* Rephraser Toggle Bar */
         .rephrase-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #f1f5f9;
-            padding: 8px 12px;
+            background: var(--bg);
+            padding: 10px 14px;
             border-radius: 8px;
+            border: 1px solid var(--border);
             margin-bottom: 15px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: #475569;
+            color: var(--subtext);
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 8px;
         }
         .rephrase-buttons { display: flex; gap: 6px; }
         .rephrase-btn {
-            background: #e2e8f0;
-            color: #334155;
-            padding: 4px 10px;
+            background: var(--border);
+            color: var(--text);
+            padding: 5px 10px;
             font-size: 0.8rem;
             border-radius: 6px;
         }
@@ -93,7 +127,7 @@
         
         /* Flashcard Styles */
         .flashcard {
-            background: #ffffff;
+            background: var(--card-bg);
             border: 2px solid var(--border);
             border-radius: 12px;
             padding: 30px;
@@ -106,7 +140,6 @@
             cursor: pointer;
             margin-bottom: 20px;
             position: relative;
-            box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
         }
         .flashcard .side-label {
             position: absolute;
@@ -115,7 +148,7 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #64748b;
+            color: var(--subtext);
             font-weight: bold;
         }
 
@@ -126,13 +159,13 @@
             font-weight: 600;
             line-height: 1.5;
             padding: 15px;
-            background: #f8fafc;
+            background: var(--bg);
             border-left: 4px solid var(--accent);
             border-radius: 4px;
         }
         .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .option-btn {
-            background: white;
+            background: var(--card-bg);
             color: var(--text);
             border: 1px solid var(--border);
             text-align: left;
@@ -142,188 +175,153 @@
             font-size: 0.95rem;
             line-height: 1.4;
         }
-        .option-btn:hover { background: #f8fafc; border-color: var(--primary); }
-        .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #166534; font-weight: bold; }
-        .option-btn.incorrect { background: #fee2e2; border-color: var(--error); color: #991b1b; }
+        .option-btn:hover { background: var(--bg); border-color: var(--primary); }
+        .option-btn.correct { background: rgba(34, 197, 94, 0.15); border-color: var(--success); color: var(--success); font-weight: bold; }
+        .option-btn.incorrect { background: rgba(239, 68, 68, 0.15); border-color: var(--error); color: var(--error); }
 
         .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
         .scorecard { text-align: center; }
         .scorecard h2 { font-size: 2rem; color: var(--success); margin: 10px 0; }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            .btn-grid { grid-template-columns: 1fr; }
+            button.accent { grid-column: span 1; }
+            .theme-toggle { position: static; margin-bottom: 15px; width: 100%; }
+            h1 { font-size: 1.25rem; }
+        }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
 <div class="container">
-    <h1>Cybersecurity Study & Quiz Hub</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <h1>Cybersecurity Study Hub</h1>
     <div class="subtitle">Disaster Recovery, Business Continuity & Incident Response</div>
     
-    <div id="app-area">
-        <!-- Initial Menu Rendered via JS -->
-    </div>
+    <div id="app-area"></div>
 </div>
 
 <script>
-    // Quiz Datasets
+    // Full Question Banks (Infosec Basics: 30, Disaster Recovery: 30, Incident Response: 50)
     const datasets = {
         infosec: [
-            {
-                original: "What is the main purpose of contingency planning?",
-                rephrased: "Why does an enterprise establish a formalized contingency framework?",
-                conceptual: "What is the core objective of organizational contingency planning?",
-                options: ["To eliminate all organizational risk", "To replace information security policies", "To prepare an organization to respond to and recover from disruptions", "To prevent employees from accessing sensitive information"],
-                answer: 2
-            },
-            {
-                original: "Which of the following is most closely associated with restoring IT systems following a major disruption?",
-                options: ["Financial Auditing", "Disaster Recovery", "Procurement Management", "Marketing Management"],
-                answer: 1
-            },
-            {
-                original: "Which activity focuses on keeping critical organizational functions operating during a disruption?",
-                options: ["Penetration testing", "Business Continuity", "Access control", "Vulnerability scanning"],
-                answer: 1
-            },
-            {
-                original: "Which activity focuses on managing and responding to security incidents?",
-                options: ["Disaster Insurance", "Incident Response", "Business Valuation", "Strategic Planning"],
-                answer: 1
-            },
-            {
-                original: "An organization cannot implement its preferred access-control system, so it introduces additional surveillance instead. What type of control is this?",
-                options: ["Detective", "Compensating", "Preventive", "Recovery"],
-                answer: 1
-            },
-            {
-                original: "According to NIST SP 800-34, what is the FIRST step in the contingency planning process?",
-                options: ["Test the contingency plan", "Develop a contingency planning policy", "Conduct a Business Impact Analysis", "Develop recovery strategies"],
-                answer: 1
-            },
-            {
-                original: "What are the three components of the CIA Triad?",
-                options: ["Confidentiality, Identification, Authentication", "Control, Investigation, Assessment", "Continuity, Incident Response, Availability", "Confidentiality, Integrity, Availability"],
-                answer: 3
-            },
-            {
-                original: "Which of the following BEST describes a vulnerability?",
-                options: ["A potential weakness in an asset or its defensive controls", "Any person attempting to attack a system", "A backup copy of organizational data", "An organizational resource being protected"],
-                answer: 0
-            },
-            {
-                original: "Which of the following is an example of a physical control?",
-                options: ["Encryption", "Security fence", "Firewall", "Password policy"],
-                answer: 1
-            },
-            {
-                original: "What is the primary purpose of a Business Impact Analysis (BIA)?",
-                options: ["Configure technical security controls", "Eliminate the need for disaster recovery", "Assess the organizational impact of realized threats", "Identify every possible cyber attacker"],
-                answer: 2
-            }
+            { original: "What is the main purpose of contingency planning?", options: ["To eliminate all organizational risk", "To replace information security policies", "To prepare an organization to respond to and recover from disruptions", "To prevent employees from accessing sensitive information"], answer: 2 },
+            { original: "Which of the following is most closely associated with restoring IT systems following a major disruption?", options: ["Financial Auditing", "Disaster Recovery", "Procurement Management", "Marketing Management"], answer: 1 },
+            { original: "Which activity focuses on keeping critical organizational functions operating during a disruption?", options: ["Penetration testing", "Business Continuity", "Access control", "Vulnerability scanning"], answer: 1 },
+            { original: "Which activity focuses on managing and responding to security incidents?", options: ["Disaster Insurance", "Incident Response", "Business Valuation", "Strategic Planning"], answer: 1 },
+            { original: "An organization cannot implement its preferred access-control system, so it introduces additional surveillance instead. What type of control is this?", options: ["Detective", "Compensating", "Preventive", "Recovery"], answer: 1 },
+            { original: "According to NIST SP 800-34, what is the FIRST step in the contingency planning process?", options: ["Test the contingency plan", "Develop a contingency planning policy", "Conduct a Business Impact Analysis", "Develop recovery strategies"], answer: 1 },
+            { original: "What is the SECOND step in the NIST SP 800-34 contingency planning process?", options: ["Maintain the plan", "Conduct a Business Impact Analysis", "Identify preventive controls", "Develop the contingency plan"], answer: 1 },
+            { original: "Which of the following occurs AFTER developing the contingency plan?", options: ["Testing, training, and exercising the plan", "Identifying preventive controls", "Developing the contingency planning policy", "Conducting the BIA"], answer: 0 },
+            { original: "What are the three components of the CIA Triad?", options: ["Confidentiality, Identification, Authentication", "Control, Investigation, Assessment", "Continuity, Incident Response, Availability", "Confidentiality, Integrity, Availability"], answer: 3 },
+            { original: "Which element of the CIA Triad focuses on ensuring information is accessible when required?", options: ["Availability", "Confidentiality", "Integrity", "Authentication"], answer: 0 },
+            { original: "Which element of the CIA Triad is primarily concerned with preventing unauthorized disclosure of information?", options: ["Availability", "Recovery", "Integrity", "Confidentiality"], answer: 3 },
+            { original: "A company's customer database has been altered without authorization. Which security objective has primarily been compromised?", options: ["Confidentiality", "Integrity", "Redundancy", "Availability"], answer: 1 },
+            { original: "Which type of asset commonly places particularly high importance on availability?", options: ["Public websites only", "Archived documents", "Operational Technology (OT) assets", "Marketing materials"], answer: 2 },
+            { original: "Which of the following BEST describes a vulnerability?", options: ["A potential weakness in an asset or its defensive controls", "Any person attempting to attack a system", "A backup copy of organizational data", "An organizational resource being protected"], answer: 0 },
+            { original: "Which of the following BEST describes a threat?", options: ["A potential weakness in a system", "A control designed to reduce risk", "An event or circumstance with the potential to adversely affect operations or assets", "A procedure for restoring a system"], answer: 2 },
+            { original: "Which of the following is an example of a physical control?", options: ["Encryption", "Security fence", "Firewall", "Password policy"], answer: 1 },
+            { original: "Which of the following is an example of a technical control?", options: ["Employee handbook", "Change-management procedure", "Firewall", "Security guard"], answer: 2 },
+            { original: "Which of the following is an example of an administrative control?", options: ["Firewall", "Encryption", "CCTV camera", "Change-management procedure"], answer: 3 },
+            { original: "What is the primary purpose of a preventive control?", options: ["Stop an undesirable event from occurring", "Calculate the financial impact of an incident", "Record an incident after it occurs", "Restore a system following an incident"], answer: 0 },
+            { original: "A system audit log is primarily what type of control?", options: ["Compensating", "Corrective", "Preventive", "Detective"], answer: 3 },
+            { original: "A warning sign stating that an area is under video surveillance is primarily what type of control?", options: ["Corrective", "Preventive", "Deterrent", "Recovery"], answer: 2 },
+            { original: "Which type of control is intended to restore a system or asset to its pre-incident condition?", options: ["Preventive", "Recovery", "Deterrent", "Administrative"], answer: 1 },
+            { original: "Contingency planning is usually considered part of which broader organizational process?", options: ["Human resource management", "Financial reporting", "Marketing management", "Risk management"], answer: 3 },
+            { original: "Which risk-management question is associated with risk identification?", options: ["Where and what is the risk?", "How severe is the risk?", "How much insurance should be purchased?", "Is the current risk acceptable?"], answer: 0 },
+            { original: "Which risk-management activity determines whether the current level of risk is acceptable?", options: ["Risk evaluation", "Risk transfer", "Risk identification", "Risk treatment"], answer: 0 },
+            { original: "What is the primary purpose of a Business Impact Analysis (BIA)?", options: ["Configure technical security controls", "Eliminate the need for disaster recovery", "Assess the organizational impact of realized threats", "Identify every possible cyber attacker"], answer: 2 },
+            { original: "A Business Impact Analysis generally begins with information produced by which activity?", options: ["Incident Closure", "Penetration Testing", "Risk Assessment", "Financial Auditing"], answer: 2 },
+            { original: "Why is a Business Impact Analysis important to contingency planning?", options: ["It identifies employee policy violations", "It helps determine the potential impact of identified threats on the organization", "It guarantees that disruptions will not occur", "It replaces the need for recovery strategies"], answer: 1 },
+            { original: "Why should a contingency plan be tested?", options: ["To demonstrate that disasters can be completely prevented", "To replace preventive controls", "To eliminate the need to update the plan", "To validate that personnel, procedures, and systems can perform as expected"], answer: 3 },
+            { original: "During a functional contingency-plan exercise, what are participants expected to do?", options: ["Rewrite the organization's information security policy", "Perform simulated operational roles and responsibilities", "Shut down the organization's production environment permanently", "Simply read the plan individually"], answer: 1 }
         ],
         dr: [
-            {
-                original: "What is the primary purpose of a Disaster Recovery Plan (DRP)?",
-                options: ["To eliminate all business risks", "To restore IT systems, applications, and data after disruption", "To manage an organization's marketing strategy", "To recruit replacement employees"],
-                answer: 1
-            },
-            {
-                original: "What is the main purpose of RAID in a disaster recovery context?",
-                options: ["Providing redundancy across multiple disk drives", "Long-term legal archiving", "Replacing all offsite backups", "Employee authentication"],
-                answer: 0
-            },
-            {
-                original: "What is electronic vaulting?",
-                options: ["Encrypting data without backing it up", "Physically transporting servers to another location", "Storing backup tapes in a physical safe", "Transferring batches of data electronically to an offsite facility"],
-                answer: 3
-            },
-            {
-                original: "How does remote journaling differ from traditional electronic vaulting?",
-                options: ["Electronic vaulting is always real-time", "Remote journaling transfers live transactions to an offsite facility", "Remote journaling cannot operate remotely", "Remote journaling only uses physical tapes"],
-                answer: 1
-            },
-            {
-                original: "Which statement best distinguishes Business Continuity from Disaster Recovery?",
-                options: ["Disaster Recovery keeps the business operating while Business Continuity restores servers", "Business Continuity keeps critical functions operating, while Disaster Recovery focuses on restoring IT and data", "Business Continuity only deals with cybersecurity incidents", "There is no meaningful difference"],
-                answer: 1
-            },
-            {
-                original: "Which backup type captures all required data each time it is performed?",
-                options: ["Daily", "Incremental", "Full", "Differential"],
-                answer: 2
-            },
-            {
-                original: "To perform a complete restoration using incremental backups, you generally need:",
-                options: ["Only the latest incremental backup", "The last full backup and every subsequent incremental backup", "Only the last full backup", "The last full backup and latest differential backup"],
-                answer: 1
-            },
-            {
-                original: "To restore using a differential backup strategy, you generally need:",
-                options: ["Only the latest differential backup", "The last full backup and the latest differential backup", "Every differential backup produced since the full backup", "Every incremental and differential backup"],
-                answer: 1
-            },
-            {
-                original: "A fire destroys an organization's entire data centre. Which recovery mechanism becomes particularly important?",
-                options: ["File permissions", "Copy backup", "Password recovery", "Site recovery"],
-                answer: 3
-            },
-            {
-                original: "What is the primary purpose of a data archive?",
-                options: ["Replacing a Disaster Recovery Plan", "Long-term retention, often for legal or regulatory purposes", "Rapid restoration following every outage", "Real-time replication"],
-                answer: 1
-            }
+            { original: "What is the primary purpose of a Disaster Recovery Plan (DRP)?", options: ["To eliminate all business risks", "To restore IT systems, applications, and data after disruption", "To manage an organization's marketing strategy", "To recruit replacement employees"], answer: 1 },
+            { original: "What is the main purpose of RAID in a disaster recovery context?", options: ["Providing redundancy across multiple disk drives", "Long-term legal archiving", "Replacing all offsite backups", "Employee authentication"], answer: 0 },
+            { original: "What distinguishes hardware-based RAID from software-based RAID?", options: ["Hardware-based RAID does not use disks", "Software-based RAID cannot provide redundancy", "Software-based RAID always requires a dedicated controller", "A dedicated RAID controller manages hardware-based RAID"], answer: 3 },
+            { original: "Software-based RAID is primarily managed by:", options: ["The operating system", "A dedicated hardware RAID controller", "The cloud provider", "The organization's legal department"], answer: 0 },
+            { original: "What is electronic vaulting?", options: ["Encrypting data without backing it up", "Physically transporting servers to another location", "Storing backup tapes in a physical safe", "Transferring batches of data electronically to an offsite facility"], answer: 3 },
+            { original: "How does remote journaling differ from traditional electronic vaulting?", options: ["Electronic vaulting is always real-time", "Remote journaling transfers live transactions to an offsite facility", "Remote journaling cannot operate remotely", "Remote journaling only uses physical tapes"], answer: 1 },
+            { original: "A company takes a complete copy of a database at a particular point in time and sends it to another database. What type of replication is this?", options: ["Snapshot replication", "RAID replication", "Merger replication", "Transaction replication"], answer: 0 },
+            { original: "Several branch offices maintain databases and periodically combine their information into another database. Which technique best describes this?", options: ["Snapshot replication", "Bare-metal recovery", "Tape rotation", "Merger replication"], answer: 3 },
+            { original: "Which statement best describes Network-Attached Storage (NAS)?", options: ["It requires Fibre Channel", "It cannot be used for backups", "It normally provides file-level storage access across a standard network", "It provides only block-level storage through a dedicated storage network"], answer: 2 },
+            { original: "Which statement best describes a Storage Area Network (SAN)?", options: ["It can only store archive files", "It typically provides high-performance block-level storage access", "It is identical to NAS", "It is designed primarily for individual home users"], answer: 1 },
+            { original: "Why is virtualization particularly useful for contingency planning and disaster recovery?", options: ["It eliminates the need for backups", "It allows an entire system to be backed up and moved relatively easily to another hardware platform", "Virtual machines cannot experience outages", "It prevents all cyberattacks"], answer: 1 },
+            { original: "Which statement best distinguishes Business Continuity from Disaster Recovery?", options: ["Disaster Recovery keeps the business operating while Business Continuity restores servers", "Business Continuity keeps critical functions operating, while Disaster Recovery focuses on restoring IT and data", "Business Continuity only deals with cybersecurity incidents", "There is no meaningful difference"], answer: 1 },
+            { original: "A company performs a backup every night at midnight. A server fails at 4:00 p.m. the following day. What is a key weakness of this approach?", options: ["The backup will automatically contain corrupted hardware", "Nightly backups cannot be restored", "Changes since the last backup may be lost", "The backup cannot be stored offsite"], answer: 2 },
+            { original: "Which of the following is an example of delayed data protection?", options: ["A scheduled nightly backup", "Live database mirroring", "Real-time transaction journaling", "Continuous data replication"], answer: 0 },
+            { original: "What is the main characteristic of real-time data protection?", options: ["Applications must remain offline", "Changes are continuously captured or replicated", "Data is copied only once per month", "Data is stored only on tape"], answer: 1 },
+            { original: "Which recovery mechanism focuses on restoring the operating system, configuration, and services following a server failure?", options: ["Server recovery", "Business Impact Analysis", "Site recovery", "Data archiving"], answer: 0 },
+            { original: "Restoring a database and ensuring that its dependencies and transactions are consistent is primarily an example of:", options: ["Site selection", "Application recovery", "Physical security", "Risk avoidance"], answer: 1 },
+            { original: "A fire destroys an organization's entire data centre. Which recovery mechanism becomes particularly important?", options: ["File permissions", "Copy backup", "Password recovery", "Site recovery"], answer: 3 },
+            { original: "What is the primary purpose of a data archive?", options: ["Replacing a Disaster Recovery Plan", "Long-term retention, often for legal or regulatory purposes", "Rapid restoration following every outage", "Real-time replication"], answer: 1 },
+            { original: "Which is generally the most common solution for recovering data following an incident or disaster?", options: ["Archives", "Access-control lists", "Firewalls", "Backups"], answer: 3 },
+            { original: "Which backup type captures all required data each time it is performed?", options: ["Daily", "Incremental", "Full", "Differential"], answer: 2 },
+            { original: "What is a major advantage of a full backup?", options: ["It eliminates the need for offsite storage", "It captures only changed files", "Restoration is relatively simple because only one backup set is required", "It requires the least storage"], answer: 2 },
+            { original: "What is a major disadvantage of a full backup?", options: ["It cannot be encrypted", "It requires all previous incremental backups", "It cannot restore deleted files", "It requires substantial time and storage"], answer: 3 },
+            { original: "An incremental backup captures:", options: ["Only files selected manually by the administrator", "Changes since the most recent backup, whether full or incremental", "All organizational data", "All changes since the last full backup"], answer: 1 },
+            { original: "To perform a complete restoration using incremental backups, you generally need:", options: ["Only the latest incremental backup", "The last full backup and every subsequent incremental backup", "Only the last full backup", "The last full backup and latest differential backup"], answer: 1 },
+            { original: "A differential backup captures:", options: ["All data on the system", "Only database transactions", "Only changes since the most recent differential backup", "All changes since the last full backup"], answer: 3 },
+            { original: "To restore using a differential backup strategy, you generally need:", options: ["Only the latest differential backup", "The last full backup and the latest differential backup", "Every differential backup produced since the full backup", "Every incremental and differential backup"], answer: 1 },
+            { original: "Why does a differential backup generally become larger each day before the next full backup?", options: ["It creates an entirely new operating system", "It repeatedly includes all changes made since the last full backup", "It includes all archived data", "It automatically duplicates the full backup"], answer: 1 },
+            { original: "A company wants fast daily backups and is willing to accept a more complicated restoration process. Which approach is most appropriate?", options: ["Incremental backup", "Cold site", "Full backup every day", "Archive only"], answer: 0 },
+            { original: "A company wants a simpler restoration process and is willing to use more storage during its daily backups. Which is more appropriate?", options: ["Differential backups", "Archives only", "Incremental backups", "No backups"], answer: 0 }
         ],
         ir: [
-            {
-                original: "A security monitoring system generates an alert after detecting unusual outbound traffic from an employee workstation. What should the SOC analyst do first?",
-                rephrased: "Your SIEM flags an abnormal spike in egress network traffic originating from an internal host. What is your immediate initial action?",
-                conceptual: "When an automated sensor triggers an unverified anomaly alert, what step precedes containment or escalation?",
-                options: ["Disable the organization's Internet connection", "Notify law enforcement", "Verify and triage the alert to determine whether it represents an incident", "Immediately rebuild the workstation"],
-                answer: 2
-            },
-            {
-                original: "An adverse event becomes an incident when:",
-                options: ["It originates outside the organization", "It involves malware", "It represents a genuine threat to ongoing organizational operations", "It generates an IDS alert"],
-                answer: 2
-            },
-            {
-                original: "During reconnaissance, an attacker examines an organization's website, job advertisements, and public information to learn what technologies it uses. This is an example of:",
-                options: ["Exploitation", "Command and control", "Installation", "OSINT gathering"],
-                answer: 3
-            },
-            {
-                original: "An attacker combines malicious code with a phishing document designed to exploit a target system. Which kill-chain stage does this represent?",
-                options: ["Exploitation", "Weaponization", "Delivery", "Reconnaissance"],
-                answer: 1
-            },
-            {
-                original: "An employee opens the malicious attachment and the exploit begins executing. Which stage of the kill chain is occurring?",
-                options: ["Installation", "Delivery", "Actions on objectives", "Exploitation"],
-                answer: 3
-            },
-            {
-                original: "A security analyst runs Nmap against an authorized network and sends packets to hosts to determine which ports are open. This is:",
-                options: ["Active scanning", "Log correlation", "File-integrity monitoring", "Passive scanning"],
-                answer: 0
-            },
-            {
-                original: "An IDS generates an alert for legitimate network traffic and the SOC investigates it as potentially malicious. This is a:",
-                options: ["False positive", "False negative", "Definite incident", "True positive"],
-                answer: 0
-            },
-            {
-                original: "Malware is actively operating on a workstation, but the organization's detection tools generate no alert. This is a:",
-                options: ["False positive", "False negative", "True negative", "Probable indicator"],
-                answer: 1
-            },
-            {
-                original: "A production server unexpectedly contains Mimikatz and a password-cracking utility. According to the framework discussed in class, this is most closely associated with:",
-                options: ["A definite indicator of an incident", "A false negative", "A backup failure", "A normal administrative event"],
-                answer: 0
-            },
-            {
-                original: "A file server suddenly shows thousands of files being modified within several minutes. Why is this particularly important to the incident-response team?",
-                options: ["High-volume file modification is a behavioural indicator associated with ransomware", "It is evidence of reconnaissance", "It proves that a backup is running", "It indicates that the firewall has failed"],
-                answer: 0
-            }
+            { original: "A security monitoring system generates an alert after detecting unusual outbound traffic from an employee workstation. What should the SOC analyst do first?", rephrased: "Your SIEM flags an abnormal spike in egress network traffic originating from an internal host. What is your immediate initial action?", conceptual: "When an automated sensor triggers an unverified anomaly alert, what step precedes containment or escalation?", options: ["Disable the organization's Internet connection", "Notify law enforcement", "Verify and triage the alert to determine whether it represents an incident", "Immediately rebuild the workstation"], answer: 2 },
+            { original: "An adverse event becomes an incident when:", options: ["It originates outside the organization", "It involves malware", "It represents a genuine threat to ongoing organizational operations", "It generates an IDS alert"], answer: 2 },
+            { original: "An employee intentionally installs unauthorized software on a company computer in violation of policy. Under the classification discussed in class, this is primarily:", options: ["Multiple components", "Denial of service", "Inappropriate usage", "Unauthorized access"], answer: 2 },
+            { original: "A company website becomes unavailable because it is being flooded with malicious traffic. Which incident category best describes this?", options: ["Unauthorized access", "Inappropriate usage", "Denial of service", "Malicious code"], answer: 2 },
+            { original: "An attacker sends malware by email, steals an employee's credentials, and subsequently uses those credentials to access confidential data. Which incident classification is most appropriate?", options: ["Multiple components", "Unauthorized access only", "Denial of service", "Malicious code only"], answer: 0 },
+            { original: "During reconnaissance, an attacker examines an organization's website, job advertisements, and public information to learn what technologies it uses. This is an example of:", options: ["Exploitation", "Command and control", "Installation", "OSINT gathering"], answer: 3 },
+            { original: "Which statement best distinguishes footprinting from fingerprinting in the reconnaissance phase?", options: ["There is no meaningful difference between them", "Footprinting identifies broad information such as Internet address ranges, while fingerprinting gathers more detailed information about network assets", "Footprinting installs malware, while fingerprinting removes it", "Footprinting is always active, while fingerprinting is always passive"], answer: 1 },
+            { original: "Why is fingerprinting generally more detectable than basic footprinting?", options: ["It always requires administrator credentials", "It can only be performed from inside the network", "It may involve more intrusive interaction with network systems", "It requires malware to be installed"], answer: 2 },
+            { original: "An attacker combines malicious code with a phishing document designed to exploit a target system. Which kill-chain stage does this represent?", options: ["Exploitation", "Weaponization", "Delivery", "Reconnaissance"], answer: 1 },
+            { original: "The attacker emails the weaponized document to employees. Which kill-chain stage has now occurred?", options: ["Installation", "Command and control", "Delivery", "Weaponization"], answer: 2 },
+            { original: "An employee opens the malicious attachment and the exploit begins executing. Which stage of the kill chain is occurring?", options: ["Installation", "Delivery", "Actions on objectives", "Exploitation"], answer: 3 },
+            { original: "Malware successfully places persistent malicious software on a compromised workstation. Which kill-chain stage best describes this?", options: ["Reconnaissance", "Installation", "Actions on objectives", "Exploitation"], answer: 1 },
+            { original: "A compromised workstation begins periodically connecting to an external server controlled by the attacker. This most directly indicates:", options: ["Reconnaissance", "Delivery", "Weaponization", "Command and control"], answer: 3 },
+            { original: "An attacker begins copying confidential customer records from the compromised network. Which kill-chain stage has most clearly been reached?", options: ["Installation", "Actions on objectives", "Weaponization", "Command and control"], answer: 1 },
+            { original: "Why can disrupting an attack during the delivery stage be particularly valuable?", options: ["Delivery occurs only after data exfiltration", "Delivery automatically removes installed malware", "Preventing successful delivery can stop later stages of the attack chain", "The attacker has already achieved their objectives"], answer: 2 },
+            { original: "A security analyst runs Nmap against an authorized network and sends packets to hosts to determine which ports are open. This is:", options: ["Active scanning", "Log correlation", "File-integrity monitoring", "Passive scanning"], answer: 0 },
+            { original: "An analyst uses Wireshark to observe existing network traffic without deliberately probing systems. This is primarily:", options: ["Exploitation", "Passive scanning", "Enumeration through authentication", "Active scanning"], answer: 1 },
+            { original: "After discovering a host, an analyst determines which services and resources it exposes. This activity is best described as:", options: ["Recovery", "Containment", "Enumeration", "Weaponization"], answer: 2 },
+            { original: "Which tool from the lecture is primarily associated with identifying known vulnerabilities and misconfigurations in discovered services?", options: ["Windows Event Viewer", "Wireshark", "Task Manager", "Nessus"], answer: 3 },
+            { original: "A SOC sees repeated failed login attempts against TCP port 3389 on an Internet-facing Windows server. Which service should analysts immediately consider?", options: ["HTTP", "SSH", "RDP", "DNS"], answer: 2 },
+            { original: "An IDS generates an alert for legitimate network traffic and the SOC investigates it as potentially malicious. This is a:", options: ["False positive", "False negative", "Definite incident", "True positive"], answer: 0 },
+            { original: "Malware is actively operating on a workstation, but the organization's detection tools generate no alert. This is a:", options: ["False positive", "False negative", "True negative", "Probable indicator"], answer: 1 },
+            { original: "Why are excessive false positives a significant problem for a SOC?", options: ["They consume analyst effort and can contribute to alert fatigue", "They make attacks technically impossible to detect", "They prevent systems from generating logs", "They automatically create false negatives"], answer: 0 },
+            { original: "A company makes its SIEM detection rules less sensitive and observes that false positives fall substantially. What additional risk should analysts examine?", options: ["Increased false negatives", "Increased backup frequency", "Increased encryption strength", "Reduced storage utilization"], answer: 0 },
+            { original: "Why should detection rules be reconsidered when new or significantly modified systems enter production?", options: ["New systems eliminate the need for baselines", "Existing incidents automatically become false positives", "New systems cannot produce security logs", "Normal behaviour may change and require additional tuning"], answer: 3 },
+            { original: "A server suddenly begins using nearly 100% CPU at 2:00 a.m., although utilization is normally very low overnight. According to the incident indicators discussed in class, this should initially be treated as:", options: ["Proof that ransomware is present", "A normal event because the server remains available", "Evidence that the server must be replaced", "A possible incident indicator requiring investigation"], answer: 3 },
+            { original: "Which of the following was identified as a probable incident indicator rather than a definite indicator?", options: ["Changes to logs", "Presence of hacker tools", "Presence of a new account", "Notification by a hacker"], answer: 2 },
+            { original: "Which of the following is classified in the lecture as a definite indicator of an incident?", options: ["Unusual system crashes", "Activity at an unexpected time", "Changes to logs", "High CPU utilization"], answer: 2 },
+            { original: "Why is unexpected modification or deletion of security logs particularly concerning?", options: ["Log modification prevents all network traffic", "Modified logs necessarily indicate hardware failure", "Attackers may alter logs to conceal malicious activity", "Logs are required for normal CPU operation"], answer: 2 },
+            { original: "A dormant administrator account belonging to a former employee suddenly logs in. Why should this receive significant attention?", options: ["Dormant accounts cannot be monitored by a SIEM", "Former employee accounts are automatically classified as malware", "Attackers may exploit forgotten legitimate accounts to maintain access", "Dormant accounts have no privileges"], answer: 2 },
+            { original: "A production server unexpectedly contains Mimikatz and a password-cracking utility. According to the framework discussed in class, this is most closely associated with:", options: ["A definite indicator of an incident", "A false negative", "A backup failure", "A normal administrative event"], answer: 0 },
+            { original: "A company's ISP contacts the SOC to report that malicious traffic appears to be originating from the company's network. What is the most appropriate interpretation?", options: ["External notifications should be ignored until an internal IDS confirms them", "The report is a significant incident indicator that should be verified and investigated", "The company should erase the suspected system before investigating", "The ISP should immediately be given administrator access"], answer: 1 },
+            { original: "A database has been altered without authorization, but no information appears to have been disclosed or deleted. Which security property has primarily been affected?", options: ["Integrity", "Confidentiality", "Authentication", "Availability"], answer: 0 },
+            { original: "Confidential customer records are copied and sent to an unauthorized external party. Which security property has primarily been affected?", options: ["Integrity", "Resilience", "Confidentiality", "Availability"], answer: 2 },
+            { original: "Ransomware encrypts a shared drive so authorized employees can no longer access their documents. Which security property is most directly affected?", options: ["Authentication", "Availability", "Non-repudiation", "Authorization"], answer: 1 },
+            { original: "Why is establishing a baseline of normal processes and services useful for incident detection?", options: ["It guarantees that every alert represents an incident", "It prevents all malware from executing", "It makes unexpected processes and services easier to identify", "It eliminates the need for analysts"], answer: 2 },
+            { original: "A SOC analyst notices a process with an unfamiliar name running on several workstations. What is the best initial conclusion?", options: ["Unknown processes can safely be ignored unless the firewall generates an alert", "The systems are definitely compromised", "The process should immediately be deleted from every machine", "The process is an incident candidate that requires investigation against expected system behaviour"], answer: 3 },
+            { original: "Which email is most consistent with the phishing indicators discussed in the lecture?", options: ["A scheduled automated notification from an established internal system", "An urgent message from a misspelled domain requesting that the recipient open an unexpected attachment", "A previously expected document from a verified organizational address", "A routine internal message from a known colleague with no attachment"], answer: 1 },
+            { original: "What distinguishes spear phishing from general phishing in the material?", options: ["Spear phishing is customized toward a particular individual or organization", "Spear phishing is always performed by an insider", "Spear phishing can only contain ransomware", "Spear phishing never uses email"], answer: 0 },
+            { original: "A file server suddenly shows thousands of files being modified within several minutes. Why is this particularly important to the incident-response team?", options: ["High-volume file modification is a behavioural indicator associated with ransomware", "It is evidence of reconnaissance", "It proves that a backup is running", "It indicates that the firewall has failed"], answer: 0 },
+            { original: "What is the principal security purpose of a honeypot in the ransomware-detection material?", options: ["To automatically decrypt ransomware-encrypted files", "To store the organization's only backup", "To attract malicious activity into a controlled environment where behaviour can be observed", "To replace the organization's firewall"], answer: 2 },
+            { original: "Which observation would strengthen suspicion that widespread file modification is caused by ransomware?", options: ["A scheduled backup completed yesterday", "A user successfully authenticates using MFA", "Numerous files suddenly acquire unfamiliar extensions", "CPU usage remains at its normal baseline"], answer: 2 },
+            { original: "Why should a honeypot be isolated from production systems?", options: ["Attackers can only detect non-isolated honeypots", "SIEM platforms cannot ingest honeypot logs", "Isolation makes it impossible to monitor", "Malicious activity in the honeypot should not be able to spread into production"], answer: 3 },
+            { original: "Which statement best describes the role of backups in ransomware detection and response?", options: ["Backups eliminate the need for endpoint protection", "Backups primarily mitigate impact and support recovery rather than detect the attack", "Backups directly detect ransomware before execution", "Backups prevent phishing messages from being delivered"], answer: 1 },
+            { original: "Why might an organization forward IDPS logs into a SIEM?", options: ["To replace all incident-response personnel", "To prevent endpoints from generating logs", "To make network traffic invisible to attackers", "To centrally analyze and correlate security events"], answer: 3 },
+            { original: "A security manager wants to improve detection without overwhelming analysts with unnecessary alerts. Which approach is most consistent with the lecture?", options: ["Configure every rule at maximum sensitivity and never change it", "Investigate only incidents reported by users", "Disable alerts that have previously generated false positives", "Continuously tune detection rules while considering both false positives and false negatives"], answer: 3 },
+            { original: "A SIEM receives an authentication failure from one server, a privilege-change event from another system, and unusual outbound traffic from a firewall. What is the main value of correlating these events?", options: ["Correlation eliminates the need to preserve original logs", "Correlation prevents false positives entirely", "Events from different sources may collectively reveal an incident that is less obvious when viewed separately", "Each event can be automatically assumed to be harmless"], answer: 2 },
+            { original: "A SOC receives hundreds of low-value alerts every hour, and analysts routinely dismiss them without investigation. Which operational problem is most evident?", options: ["Weaponization", "Alert fatigue", "Site recovery", "Data exfiltration"], answer: 1 },
+            { original: "Which sequence most closely reflects the IDS alert-handling workflow presented in the lecture?", options: ["Recover → scan → weaponize → contain", "Delete → rebuild → report → investigate", "Verify → classify severity → respond → document", "Escalate → ignore → archive → restore"], answer: 2 },
+            { original: "A SOC observes a large volume of unexpected outbound traffic from an internal workstation during an off-peak period. Why should this receive attention?", options: ["Off-peak traffic is always prohibited", "High traffic necessarily means a denial-of-service attack against the workstation", "Unexpected internal traffic at unusual times can indicate data exfiltration or internal compromise", "Outbound traffic cannot be associated with an intrusion"], answer: 2 }
         ]
     };
 
@@ -331,10 +329,19 @@
     let selectedMode = null; // 'flashcard' or 'quiz'
     let currentIndex = 0;
     let score = 0;
+    let consecutiveErrors = 0;
     let activeQuestions = [];
     let isFlipped = false;
     let selectedAnswer = null;
-    let contextMode = 'original'; // 'original', 'rephrased', 'conceptual'
+    let contextMode = 'original';
+
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        body.setAttribute('data-theme', newTheme);
+        document.querySelector('.theme-toggle').textContent = newTheme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode';
+    }
 
     function shuffle(array) {
         let currentIndex = array.length, randomIndex;
@@ -351,13 +358,13 @@
         area.innerHTML = `
             <div class="menu-section">
                 <div class="menu-group">
-                    <h3>1. Choose Topic or Master Mode</h3>
-                    <div class="btn-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 10px;">
-                        <button onclick="selectQuiz('infosec')">Infosec Basics</button>
-                        <button onclick="selectQuiz('dr')">Disaster Recovery</button>
-                        <button onclick="selectQuiz('ir')" style="grid-column: span 2;">Incident Response</button>
+                    <h3>1. Choose Topic or Master Comprehensive Mode</h3>
+                    <div class="btn-grid" style="margin-bottom: 12px;">
+                        <button onclick="selectQuiz('infosec')">Infosec Basics (30 Qs)</button>
+                        <button onclick="selectQuiz('dr')">Disaster Recovery (30 Qs)</button>
+                        <button onclick="selectQuiz('ir')" style="grid-column: span 2;">Incident Response (50 Qs)</button>
                     </div>
-                    <button class="accent" onclick="selectQuiz('all')">🚀 Master Comprehensive Mode (All 3 Combined & Shuffled)</button>
+                    <button class="accent" onclick="selectQuiz('all')">🚀 Master Comprehensive Mode (All 110 Shuffled Qs)</button>
                 </div>
             </div>
         `;
@@ -388,6 +395,7 @@
         selectedMode = mode;
         currentIndex = 0;
         score = 0;
+        consecutiveErrors = 0;
 
         if (selectedQuizKey === 'all') {
             activeQuestions = shuffle([...datasets.infosec, ...datasets.dr, ...datasets.ir]);
@@ -459,7 +467,7 @@
             area.innerHTML = `
                 <button class="back-btn" onclick="renderModeMenu()">← Back to Modes</button>
                 ${renderRephraseBar()}
-                <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">Question ${currentIndex + 1} of ${activeQuestions.length}</div>
+                <div style="font-size: 0.85rem; color: var(--subtext); margin-bottom: 10px;">Question ${currentIndex + 1} of ${activeQuestions.length} | Consecutive Errors: ${consecutiveErrors}/5</div>
                 <div class="question-box">${qText}</div>
                 <div class="options-list">${optionsHTML}</div>
                 <div class="nav-controls" id="quiz-nav" style="display: none;">
@@ -510,6 +518,18 @@
 
         if (selectedIdx === item.answer) {
             score++;
+            consecutiveErrors = 0; // Reset on correct answer
+        } else {
+            consecutiveErrors++;
+        }
+
+        // Check Early Failure Rule: 5 errors in a row OR failing too early before midpoint
+        const midPoint = Math.floor(activeQuestions.length / 2);
+        const currentFailedCount = (currentIndex + 1) - score;
+
+        if (consecutiveErrors >= 5 || (currentIndex < midPoint && currentFailedCount >= (midPoint / 2) + 1 && currentIndex >= 4)) {
+            setTimeout(() => renderEarlyFailState(), 800);
+            return;
         }
 
         document.getElementById('quiz-nav').style.display = 'flex';
@@ -520,17 +540,34 @@
         render();
     }
 
+    function renderEarlyFailState() {
+        const area = document.getElementById('app-area');
+        area.innerHTML = `
+            <div class="scorecard">
+                <h2 style="color: var(--error);">Test Terminated (Early Fail) ⚠️</h2>
+                <p>You triggered an early failure condition (either 5 consecutive incorrect answers or too many mistakes before reaching the mid-test point).</p>
+                <p>Please review your material and restart.</p>
+                <br>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="startSession(selectedMode)">Restart & Reshuffle</button>
+                    <button class="secondary" onclick="renderMenu()">Choose Topic</button>
+                </div>
+            </div>
+        `;
+    }
+
     function renderScorecard() {
         const area = document.getElementById('app-area');
         const percentage = Math.round((score / activeQuestions.length) * 100);
+        const passed = percentage >= 70;
         area.innerHTML = `
             <div class="scorecard">
-                <h2>Quiz Complete! 🎉</h2>
+                <h2>${passed ? 'Quiz Complete! 🎉' : 'Quiz Failed ❌'}</h2>
                 <p>Your Final Score:</p>
                 <h1 style="font-size: 3rem; margin: 10px 0;">${score} / ${activeQuestions.length}</h1>
-                <p style="font-size: 1.2rem; font-weight: bold; color: ${percentage >= 70 ? 'var(--success)' : 'var(--error)'};">Grade: ${percentage}%</p>
+                <p style="font-size: 1.2rem; font-weight: bold; color: ${passed ? 'var(--success)' : 'var(--error)'};">Grade: ${percentage}% (${passed ? 'Passed' : 'Failed'})</p>
                 <br>
-                <div style="display: flex; gap: 10px; justify-content: center;">
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="startSession(selectedMode)">Retake & Reshuffle</button>
                     <button class="secondary" onclick="renderMenu()">Choose Another Topic</button>
                 </div>
@@ -544,363 +581,3 @@
 
 </body>
 </html>
-
-<!-- V1 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Response Study & Quiz App</title>
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
-            --success: #22c55e;
-            --error: #ef4444;
-        }
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 100%;
-            max-width: 700px;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        h1 { font-size: 1.5rem; margin-top: 0; color: var(--primary); text-align: center; }
-        .mode-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            justify-content: center;
-        }
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        button:hover { background: var(--primary-hover); }
-        button.secondary { background: #64748b; }
-        button.secondary:hover { background: #475569; }
-        
-        /* Flashcard Styles */
-        .flashcard {
-            background: #f1f5f9;
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 30px;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .flashcard .side-label {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748b;
-            font-weight: bold;
-        }
-        
-        /* Quiz Styles */
-        .question-box { margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; }
-        .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .option-btn {
-            background: white;
-            color: var(--text);
-            border: 1px solid var(--border);
-            text-align: left;
-            padding: 12px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .option-btn:hover { background: #f8fafc; border-color: var(--primary); }
-        .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #166534; }
-        .option-btn.incorrect { background: #fee2e2; border-color: var(--error); color: #991b1b; }
-
-        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
-        .scorecard { text-align: center; }
-        .scorecard h2 { font-size: 2rem; color: var(--success); margin: 10px 0; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>Incident Response Study App</h1>
-    
-    <div id="menu" class="mode-selector">
-        <button onclick="startMode('flashcard')">Flashcard Mode</button>
-        <button onclick="startMode('quiz')">Quiz Mode (Shuffled)</button>
-    </div>
-
-    <div id="app-area"></div>
-</div>
-
-<script>
-    // Question Bank parsed from your input
-    const questions = [
-        {
-            q: "A security monitoring system generates an alert after detecting unusual outbound traffic from an employee workstation. What should the SOC analyst do first?",
-            options: [
-                "Disable the organization's Internet connection",
-                "Notify law enforcement",
-                "Verify and triage the alert to determine whether it represents an incident",
-                "Immediately rebuild the workstation"
-            ],
-            answer: 2
-        },
-        {
-            q: "An adverse event becomes an incident when:",
-            options: [
-                "It originates outside the organization",
-                "It involves malware",
-                "It represents a genuine threat to ongoing organizational operations",
-                "It generates an IDS alert"
-            ],
-            answer: 2
-        },
-        {
-            q: "An employee intentionally installs unauthorized software on a company computer in violation of policy. Under the classification discussed in class, this is primarily:",
-            options: [
-                "Multiple components",
-                "Denial of service",
-                "Inappropriate usage",
-                "Unauthorized access"
-            ],
-            answer: 2
-        },
-        {
-            q: "A company website becomes unavailable because it is being flooded with malicious traffic. Which incident category best describes this?",
-            options: [
-                "Unauthorized access",
-                "Inappropriate usage",
-                "Denial of service",
-                "Malicious code"
-            ],
-            answer: 2
-        },
-        {
-            q: "An attacker sends malware by email, steals an employee's credentials, and subsequently uses those credentials to access confidential data. Which incident classification is most appropriate?",
-            options: [
-                "Multiple components",
-                "Unauthorized access only",
-                "Denial of service",
-                "Malicious code only"
-            ],
-            answer: 0
-        },
-        {
-            q: "During reconnaissance, an attacker examines an organization's website, job advertisements, and public information to learn what technologies it uses. This is an example of:",
-            options: [
-                "Exploitation",
-                "Command and control",
-                "Installation",
-                "OSINT gathering"
-            ],
-            answer: 3
-        },
-        {
-            q: "Why is fingerprinting generally more detectable than basic footprinting?",
-            options: [
-                "It always requires administrator credentials",
-                "It can only be performed from inside the network",
-                "It may involve more intrusive interaction with network systems",
-                "It requires malware to be installed"
-            ],
-            answer: 2
-        },
-        {
-            q: "An attacker combines malicious code with a phishing document designed to exploit a target system. Which kill-chain stage does this represent?",
-            options: [
-                "Exploitation",
-                "Weaponization",
-                "Delivery",
-                "Reconnaissance"
-            ],
-            answer: 1
-        },
-        {
-            q: "An employee opens the malicious attachment and the exploit begins executing. Which stage of the kill chain is occurring?",
-            options: [
-                "Installation",
-                "Delivery",
-                "Actions on objectives",
-                "Exploitation"
-            ],
-            answer: 3
-        },
-        {
-            q: "A company's ISP contacts the SOC to report that malicious traffic appears to be originating from the company's network. What is the most appropriate interpretation?",
-            options: [
-                "External notifications should be ignored until an internal IDS confirms them",
-                "The report is a significant incident indicator that should be verified and investigated",
-                "The company should erase the suspected system before investigating",
-                "The ISP should immediately be given administrator access"
-            ],
-            answer: 1
-        }
-    ];
-
-    let currentMode = null;
-    let currentIndex = 0;
-    let score = 0;
-    let activeQuestions = [];
-    let isFlipped = false;
-    let selectedAnswer = null;
-
-    function shuffle(array) {
-        let currentIndex = array.length, randomIndex;
-        while (currentIndex !== 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
-
-    function startMode(mode) {
-        currentMode = mode;
-        currentIndex = 0;
-        score = 0;
-        activeQuestions = shuffle([...questions]);
-        document.getElementById('menu').style.display = 'none';
-        render();
-    }
-
-    function render() {
-        const area = document.getElementById('app-area');
-        if (currentIndex >= activeQuestions.length) {
-            renderScorecard();
-            return;
-        }
-
-        const item = activeQuestions[currentIndex];
-
-        if (currentMode === 'flashcard') {
-            area.innerHTML = `
-                <div class="flashcard" onclick="toggleFlip()">
-                    <div class="side-label">${isFlipped ? 'Answer' : 'Question (Click to flip)'}</div>
-                    <div style="font-size: 1.1rem; font-weight: 500;">
-                        ${isFlipped ? '<strong>Correct Answer:</strong><br><br>' + item.options[item.answer] : item.q}
-                    </div>
-                </div>
-                <div class="nav-controls">
-                    <button class="secondary" onclick="prevCard()">Previous</button>
-                    <span>Card ${currentIndex + 1} of ${activeQuestions.length}</span>
-                    <button onclick="nextCard()">Next</button>
-                </div>
-            `;
-        } else if (currentMode === 'quiz') {
-            let optionsHTML = '';
-            item.options.forEach((opt, idx) => {
-                optionsHTML += `<button class="option-btn" id="opt-${idx}" onclick="selectQuizAnswer(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</button>`;
-            });
-
-            area.innerHTML = `
-                <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">Question ${currentIndex + 1} of ${activeQuestions.length}</div>
-                <div class="question-box">${item.q}</div>
-                <div class="options-list">${optionsHTML}</div>
-                <div class="nav-controls" id="quiz-nav" style="display: none;">
-                    <button onclick="nextQuizQuestion()">Next Question</button>
-                </div>
-            `;
-            selectedAnswer = null;
-        }
-    }
-
-    function toggleFlip() {
-        isFlipped = !isFlipped;
-        render();
-    }
-
-    function nextCard() {
-        isFlipped = false;
-        if (currentIndex < activeQuestions.length - 1) {
-            currentIndex++;
-            render();
-        } else {
-            alert("You've reached the end of the flashcard deck!");
-        }
-    }
-
-    function prevCard() {
-        isFlipped = false;
-        if (currentIndex > 0) {
-            currentIndex--;
-            render();
-        }
-    }
-
-    function selectQuizAnswer(selectedIdx) {
-        if (selectedAnswer !== null) return; // Prevent changing answer
-        selectedAnswer = selectedIdx;
-        const item = activeQuestions[currentIndex];
-
-        const buttons = document.querySelectorAll('.option-btn');
-        buttons.forEach((btn, idx) => {
-            btn.disabled = true;
-            if (idx === item.answer) {
-                btn.classList.add('correct');
-            } else if (idx === selectedIdx) {
-                btn.classList.add('incorrect');
-            }
-        });
-
-        if (selectedIdx === item.answer) {
-            score++;
-        }
-
-        document.getElementById('quiz-nav').style.display = 'flex';
-    }
-
-    function nextQuizQuestion() {
-        currentIndex++;
-        render();
-    }
-
-    function renderScorecard() {
-        const area = document.getElementById('app-area');
-        const percentage = Math.round((score / activeQuestions.length) * 100);
-        area.innerHTML = `
-            <div class="scorecard">
-                <h2>Quiz Complete! 🎉</h2>
-                <p>Your Final Score:</p>
-                <h1 style="font-size: 3rem; margin: 10px 0;">${score} / ${activeQuestions.length}</h1>
-                <p style="font-size: 1.2rem; font-weight: bold; color: ${percentage >= 70 ? 'var(--success)' : 'var(--error)'};">Grade: ${percentage}%</p>
-                <br>
-                <button onclick="location.reload()">Try Again / Reshuffle</button>
-            </div>
-        `;
-    }
-</script>
-
-</body>
-</html> -->
