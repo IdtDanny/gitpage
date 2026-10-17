@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Study & Quiz Hub</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #cbd5e1;
+            --success: #22c55e;
+            --error: #ef4444;
+            --accent: #0284c7;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        h1 { font-size: 1.5rem; margin-top: 0; color: var(--primary); text-align: center; }
+        .subtitle { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        /* Menu Selectors */
+        .menu-section { display: flex; flex-direction: column; gap: 15px; }
+        .menu-group { background: #f1f5f9; padding: 15px; border-radius: 10px; }
+        .menu-group h3 { margin-top: 0; font-size: 1rem; color: #334155; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+        button:hover { background: var(--primary-hover); }
+        button.secondary { background: #64748b; }
+        button.secondary:hover { background: #475569; }
+        button.accent { background: var(--accent); grid-column: span 2; }
+        button.accent:hover { background: #0369a1; }
+        button.back-btn { background: #e2e8f0; color: #334155; margin-bottom: 15px; padding: 8px 14px; font-size: 0.85rem; }
+        button.back-btn:hover { background: #cbd5e1; }
+
+        /* Rephraser Toggle Bar */
+        .rephrase-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .rephrase-buttons { display: flex; gap: 6px; }
+        .rephrase-btn {
+            background: #e2e8f0;
+            color: #334155;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+        }
+        .rephrase-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        /* Flashcard Styles */
+        .flashcard {
+            background: #ffffff;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+        }
+        .flashcard .side-label {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        /* Quiz Styles */
+        .question-box {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.5;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+        .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .option-btn {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+            text-align: left;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .option-btn:hover { background: #f8fafc; border-color: var(--primary); }
+        .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #166534; font-weight: bold; }
+        .option-btn.incorrect { background: #fee2e2; border-color: var(--error); color: #991b1b; }
+
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .scorecard { text-align: center; }
+        .scorecard h2 { font-size: 2rem; color: var(--success); margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Cybersecurity Study & Quiz Hub</h1>
+    <div class="subtitle">Disaster Recovery, Business Continuity & Incident Response</div>
+    
+    <div id="app-area">
+        <!-- Initial Menu Rendered via JS -->
+    </div>
+</div>
+
+<script>
+    // Quiz Datasets
+    const datasets = {
+        infosec: [
+            {
+                original: "What is the main purpose of contingency planning?",
+                rephrased: "Why does an enterprise establish a formalized contingency framework?",
+                conceptual: "What is the core objective of organizational contingency planning?",
+                options: ["To eliminate all organizational risk", "To replace information security policies", "To prepare an organization to respond to and recover from disruptions", "To prevent employees from accessing sensitive information"],
+                answer: 2
+            },
+            {
+                original: "Which of the following is most closely associated with restoring IT systems following a major disruption?",
+                options: ["Financial Auditing", "Disaster Recovery", "Procurement Management", "Marketing Management"],
+                answer: 1
+            },
+            {
+                original: "Which activity focuses on keeping critical organizational functions operating during a disruption?",
+                options: ["Penetration testing", "Business Continuity", "Access control", "Vulnerability scanning"],
+                answer: 1
+            },
+            {
+                original: "Which activity focuses on managing and responding to security incidents?",
+                options: ["Disaster Insurance", "Incident Response", "Business Valuation", "Strategic Planning"],
+                answer: 1
+            },
+            {
+                original: "An organization cannot implement its preferred access-control system, so it introduces additional surveillance instead. What type of control is this?",
+                options: ["Detective", "Compensating", "Preventive", "Recovery"],
+                answer: 1
+            },
+            {
+                original: "According to NIST SP 800-34, what is the FIRST step in the contingency planning process?",
+                options: ["Test the contingency plan", "Develop a contingency planning policy", "Conduct a Business Impact Analysis", "Develop recovery strategies"],
+                answer: 1
+            },
+            {
+                original: "What are the three components of the CIA Triad?",
+                options: ["Confidentiality, Identification, Authentication", "Control, Investigation, Assessment", "Continuity, Incident Response, Availability", "Confidentiality, Integrity, Availability"],
+                answer: 3
+            },
+            {
+                original: "Which of the following BEST describes a vulnerability?",
+                options: ["A potential weakness in an asset or its defensive controls", "Any person attempting to attack a system", "A backup copy of organizational data", "An organizational resource being protected"],
+                answer: 0
+            },
+            {
+                original: "Which of the following is an example of a physical control?",
+                options: ["Encryption", "Security fence", "Firewall", "Password policy"],
+                answer: 1
+            },
+            {
+                original: "What is the primary purpose of a Business Impact Analysis (BIA)?",
+                options: ["Configure technical security controls", "Eliminate the need for disaster recovery", "Assess the organizational impact of realized threats", "Identify every possible cyber attacker"],
+                answer: 2
+            }
+        ],
+        dr: [
+            {
+                original: "What is the primary purpose of a Disaster Recovery Plan (DRP)?",
+                options: ["To eliminate all business risks", "To restore IT systems, applications, and data after disruption", "To manage an organization's marketing strategy", "To recruit replacement employees"],
+                answer: 1
+            },
+            {
+                original: "What is the main purpose of RAID in a disaster recovery context?",
+                options: ["Providing redundancy across multiple disk drives", "Long-term legal archiving", "Replacing all offsite backups", "Employee authentication"],
+                answer: 0
+            },
+            {
+                original: "What is electronic vaulting?",
+                options: ["Encrypting data without backing it up", "Physically transporting servers to another location", "Storing backup tapes in a physical safe", "Transferring batches of data electronically to an offsite facility"],
+                answer: 3
+            },
+            {
+                original: "How does remote journaling differ from traditional electronic vaulting?",
+                options: ["Electronic vaulting is always real-time", "Remote journaling transfers live transactions to an offsite facility", "Remote journaling cannot operate remotely", "Remote journaling only uses physical tapes"],
+                answer: 1
+            },
+            {
+                original: "Which statement best distinguishes Business Continuity from Disaster Recovery?",
+                options: ["Disaster Recovery keeps the business operating while Business Continuity restores servers", "Business Continuity keeps critical functions operating, while Disaster Recovery focuses on restoring IT and data", "Business Continuity only deals with cybersecurity incidents", "There is no meaningful difference"],
+                answer: 1
+            },
+            {
+                original: "Which backup type captures all required data each time it is performed?",
+                options: ["Daily", "Incremental", "Full", "Differential"],
+                answer: 2
+            },
+            {
+                original: "To perform a complete restoration using incremental backups, you generally need:",
+                options: ["Only the latest incremental backup", "The last full backup and every subsequent incremental backup", "Only the last full backup", "The last full backup and latest differential backup"],
+                answer: 1
+            },
+            {
+                original: "To restore using a differential backup strategy, you generally need:",
+                options: ["Only the latest differential backup", "The last full backup and the latest differential backup", "Every differential backup produced since the full backup", "Every incremental and differential backup"],
+                answer: 1
+            },
+            {
+                original: "A fire destroys an organization's entire data centre. Which recovery mechanism becomes particularly important?",
+                options: ["File permissions", "Copy backup", "Password recovery", "Site recovery"],
+                answer: 3
+            },
+            {
+                original: "What is the primary purpose of a data archive?",
+                options: ["Replacing a Disaster Recovery Plan", "Long-term retention, often for legal or regulatory purposes", "Rapid restoration following every outage", "Real-time replication"],
+                answer: 1
+            }
+        ],
+        ir: [
+            {
+                original: "A security monitoring system generates an alert after detecting unusual outbound traffic from an employee workstation. What should the SOC analyst do first?",
+                rephrased: "Your SIEM flags an abnormal spike in egress network traffic originating from an internal host. What is your immediate initial action?",
+                conceptual: "When an automated sensor triggers an unverified anomaly alert, what step precedes containment or escalation?",
+                options: ["Disable the organization's Internet connection", "Notify law enforcement", "Verify and triage the alert to determine whether it represents an incident", "Immediately rebuild the workstation"],
+                answer: 2
+            },
+            {
+                original: "An adverse event becomes an incident when:",
+                options: ["It originates outside the organization", "It involves malware", "It represents a genuine threat to ongoing organizational operations", "It generates an IDS alert"],
+                answer: 2
+            },
+            {
+                original: "During reconnaissance, an attacker examines an organization's website, job advertisements, and public information to learn what technologies it uses. This is an example of:",
+                options: ["Exploitation", "Command and control", "Installation", "OSINT gathering"],
+                answer: 3
+            },
+            {
+                original: "An attacker combines malicious code with a phishing document designed to exploit a target system. Which kill-chain stage does this represent?",
+                options: ["Exploitation", "Weaponization", "Delivery", "Reconnaissance"],
+                answer: 1
+            },
+            {
+                original: "An employee opens the malicious attachment and the exploit begins executing. Which stage of the kill chain is occurring?",
+                options: ["Installation", "Delivery", "Actions on objectives", "Exploitation"],
+                answer: 3
+            },
+            {
+                original: "A security analyst runs Nmap against an authorized network and sends packets to hosts to determine which ports are open. This is:",
+                options: ["Active scanning", "Log correlation", "File-integrity monitoring", "Passive scanning"],
+                answer: 0
+            },
+            {
+                original: "An IDS generates an alert for legitimate network traffic and the SOC investigates it as potentially malicious. This is a:",
+                options: ["False positive", "False negative", "Definite incident", "True positive"],
+                answer: 0
+            },
+            {
+                original: "Malware is actively operating on a workstation, but the organization's detection tools generate no alert. This is a:",
+                options: ["False positive", "False negative", "True negative", "Probable indicator"],
+                answer: 1
+            },
+            {
+                original: "A production server unexpectedly contains Mimikatz and a password-cracking utility. According to the framework discussed in class, this is most closely associated with:",
+                options: ["A definite indicator of an incident", "A false negative", "A backup failure", "A normal administrative event"],
+                answer: 0
+            },
+            {
+                original: "A file server suddenly shows thousands of files being modified within several minutes. Why is this particularly important to the incident-response team?",
+                options: ["High-volume file modification is a behavioural indicator associated with ransomware", "It is evidence of reconnaissance", "It proves that a backup is running", "It indicates that the firewall has failed"],
+                answer: 0
+            }
+        ]
+    };
+
+    let selectedQuizKey = null;
+    let selectedMode = null; // 'flashcard' or 'quiz'
+    let currentIndex = 0;
+    let score = 0;
+    let activeQuestions = [];
+    let isFlipped = false;
+    let selectedAnswer = null;
+    let contextMode = 'original'; // 'original', 'rephrased', 'conceptual'
+
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function renderMenu() {
+        const area = document.getElementById('app-area');
+        area.innerHTML = `
+            <div class="menu-section">
+                <div class="menu-group">
+                    <h3>1. Choose Topic or Master Mode</h3>
+                    <div class="btn-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 10px;">
+                        <button onclick="selectQuiz('infosec')">Infosec Basics</button>
+                        <button onclick="selectQuiz('dr')">Disaster Recovery</button>
+                        <button onclick="selectQuiz('ir')" style="grid-column: span 2;">Incident Response</button>
+                    </div>
+                    <button class="accent" onclick="selectQuiz('all')">🚀 Master Comprehensive Mode (All 3 Combined & Shuffled)</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function selectQuiz(quizKey) {
+        selectedQuizKey = quizKey;
+        renderModeMenu();
+    }
+
+    function renderModeMenu() {
+        const area = document.getElementById('app-area');
+        area.innerHTML = `
+            <button class="back-btn" onclick="renderMenu()">← Back to Topics</button>
+            <div class="menu-section">
+                <div class="menu-group">
+                    <h3>2. Choose Study Mode</h3>
+                    <div class="btn-grid">
+                        <button onclick="startSession('flashcard')">Flashcard Mode</button>
+                        <button onclick="startSession('quiz')">Quiz Mode (Shuffled)</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function startSession(mode) {
+        selectedMode = mode;
+        currentIndex = 0;
+        score = 0;
+
+        if (selectedQuizKey === 'all') {
+            activeQuestions = shuffle([...datasets.infosec, ...datasets.dr, ...datasets.ir]);
+        } else {
+            activeQuestions = shuffle([...datasets[selectedQuizKey]]);
+        }
+        render();
+    }
+
+    function setContextMode(mode) {
+        contextMode = mode;
+        render();
+    }
+
+    function getQuestionText(item) {
+        if (contextMode === 'rephrased' && item.rephrased) {
+            return item.rephrased;
+        } else if (contextMode === 'conceptual' && item.conceptual) {
+            return item.conceptual;
+        }
+        return item.original;
+    }
+
+    function renderRephraseBar() {
+        return `
+            <div class="rephrase-bar">
+                <span>Wording Style:</span>
+                <div class="rephrase-buttons">
+                    <button class="rephrase-btn ${contextMode === 'original' ? 'active' : ''}" onclick="setContextMode('original')">Original</button>
+                    <button class="rephrase-btn ${contextMode === 'rephrased' ? 'active' : ''}" onclick="setContextMode('rephrased')">Practical Context</button>
+                    <button class="rephrase-btn ${contextMode === 'conceptual' ? 'active' : ''}" onclick="setContextMode('conceptual')">Concept Only</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function render() {
+        const area = document.getElementById('app-area');
+        if (currentIndex >= activeQuestions.length) {
+            renderScorecard();
+            return;
+        }
+
+        const item = activeQuestions[currentIndex];
+        const qText = getQuestionText(item);
+
+        if (selectedMode === 'flashcard') {
+            area.innerHTML = `
+                <button class="back-btn" onclick="renderModeMenu()">← Back to Modes</button>
+                ${renderRephraseBar()}
+                <div class="flashcard" onclick="toggleFlip()">
+                    <div class="side-label">${isFlipped ? 'Answer' : 'Question (Click card to reveal)'}</div>
+                    <div style="font-size: 1.1rem; font-weight: 500;">
+                        ${isFlipped ? '<strong>Correct Answer:</strong><br><br>' + item.options[item.answer] : qText}
+                    </div>
+                </div>
+                <div class="nav-controls">
+                    <button class="secondary" onclick="prevCard()">Previous</button>
+                    <span>Card ${currentIndex + 1} of ${activeQuestions.length}</span>
+                    <button onclick="nextCard()">Next</button>
+                </div>
+            `;
+        } else if (selectedMode === 'quiz') {
+            let optionsHTML = '';
+            item.options.forEach((opt, idx) => {
+                optionsHTML += `<button class="option-btn" id="opt-${idx}" onclick="selectQuizAnswer(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</button>`;
+            });
+
+            area.innerHTML = `
+                <button class="back-btn" onclick="renderModeMenu()">← Back to Modes</button>
+                ${renderRephraseBar()}
+                <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">Question ${currentIndex + 1} of ${activeQuestions.length}</div>
+                <div class="question-box">${qText}</div>
+                <div class="options-list">${optionsHTML}</div>
+                <div class="nav-controls" id="quiz-nav" style="display: none;">
+                    <button onclick="nextQuizQuestion()">Next Question</button>
+                </div>
+            `;
+            selectedAnswer = null;
+        }
+    }
+
+    function toggleFlip() {
+        isFlipped = !isFlipped;
+        render();
+    }
+
+    function nextCard() {
+        isFlipped = false;
+        if (currentIndex < activeQuestions.length - 1) {
+            currentIndex++;
+            render();
+        } else {
+            alert("You've reached the end of the deck!");
+        }
+    }
+
+    function prevCard() {
+        isFlipped = false;
+        if (currentIndex > 0) {
+            currentIndex--;
+            render();
+        }
+    }
+
+    function selectQuizAnswer(selectedIdx) {
+        if (selectedAnswer !== null) return;
+        selectedAnswer = selectedIdx;
+        const item = activeQuestions[currentIndex];
+
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === item.answer) {
+                btn.classList.add('correct');
+            } else if (idx === selectedIdx) {
+                btn.classList.add('incorrect');
+            }
+        });
+
+        if (selectedIdx === item.answer) {
+            score++;
+        }
+
+        document.getElementById('quiz-nav').style.display = 'flex';
+    }
+
+    function nextQuizQuestion() {
+        currentIndex++;
+        render();
+    }
+
+    function renderScorecard() {
+        const area = document.getElementById('app-area');
+        const percentage = Math.round((score / activeQuestions.length) * 100);
+        area.innerHTML = `
+            <div class="scorecard">
+                <h2>Quiz Complete! 🎉</h2>
+                <p>Your Final Score:</p>
+                <h1 style="font-size: 3rem; margin: 10px 0;">${score} / ${activeQuestions.length}</h1>
+                <p style="font-size: 1.2rem; font-weight: bold; color: ${percentage >= 70 ? 'var(--success)' : 'var(--error)'};">Grade: ${percentage}%</p>
+                <br>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="startSession(selectedMode)">Retake & Reshuffle</button>
+                    <button class="secondary" onclick="renderMenu()">Choose Another Topic</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // Initialize App Menu
+    renderMenu();
+</script>
+
+</body>
+</html>
+
+<!-- V1 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Response Study & Quiz App</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        h1 { font-size: 1.5rem; margin-top: 0; color: var(--primary); text-align: center; }
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        button:hover { background: var(--primary-hover); }
+        button.secondary { background: #64748b; }
+        button.secondary:hover { background: #475569; }
+        
+        /* Flashcard Styles */
+        .flashcard {
+            background: #f1f5f9;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .flashcard .side-label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            font-weight: bold;
+        }
+        
+        /* Quiz Styles */
+        .question-box { margin-bottom: 20px; font-size: 1.1rem; font-weight: 600; }
+        .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .option-btn {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+            text-align: left;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .option-btn:hover { background: #f8fafc; border-color: var(--primary); }
+        .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #166534; }
+        .option-btn.incorrect { background: #fee2e2; border-color: var(--error); color: #991b1b; }
+
+        .nav-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .scorecard { text-align: center; }
+        .scorecard h2 { font-size: 2rem; color: var(--success); margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Incident Response Study App</h1>
+    
+    <div id="menu" class="mode-selector">
+        <button onclick="startMode('flashcard')">Flashcard Mode</button>
+        <button onclick="startMode('quiz')">Quiz Mode (Shuffled)</button>
+    </div>
+
+    <div id="app-area"></div>
+</div>
+
+<script>
+    // Question Bank parsed from your input
+    const questions = [
+        {
+            q: "A security monitoring system generates an alert after detecting unusual outbound traffic from an employee workstation. What should the SOC analyst do first?",
+            options: [
+                "Disable the organization's Internet connection",
+                "Notify law enforcement",
+                "Verify and triage the alert to determine whether it represents an incident",
+                "Immediately rebuild the workstation"
+            ],
+            answer: 2
+        },
+        {
+            q: "An adverse event becomes an incident when:",
+            options: [
+                "It originates outside the organization",
+                "It involves malware",
+                "It represents a genuine threat to ongoing organizational operations",
+                "It generates an IDS alert"
+            ],
+            answer: 2
+        },
+        {
+            q: "An employee intentionally installs unauthorized software on a company computer in violation of policy. Under the classification discussed in class, this is primarily:",
+            options: [
+                "Multiple components",
+                "Denial of service",
+                "Inappropriate usage",
+                "Unauthorized access"
+            ],
+            answer: 2
+        },
+        {
+            q: "A company website becomes unavailable because it is being flooded with malicious traffic. Which incident category best describes this?",
+            options: [
+                "Unauthorized access",
+                "Inappropriate usage",
+                "Denial of service",
+                "Malicious code"
+            ],
+            answer: 2
+        },
+        {
+            q: "An attacker sends malware by email, steals an employee's credentials, and subsequently uses those credentials to access confidential data. Which incident classification is most appropriate?",
+            options: [
+                "Multiple components",
+                "Unauthorized access only",
+                "Denial of service",
+                "Malicious code only"
+            ],
+            answer: 0
+        },
+        {
+            q: "During reconnaissance, an attacker examines an organization's website, job advertisements, and public information to learn what technologies it uses. This is an example of:",
+            options: [
+                "Exploitation",
+                "Command and control",
+                "Installation",
+                "OSINT gathering"
+            ],
+            answer: 3
+        },
+        {
+            q: "Why is fingerprinting generally more detectable than basic footprinting?",
+            options: [
+                "It always requires administrator credentials",
+                "It can only be performed from inside the network",
+                "It may involve more intrusive interaction with network systems",
+                "It requires malware to be installed"
+            ],
+            answer: 2
+        },
+        {
+            q: "An attacker combines malicious code with a phishing document designed to exploit a target system. Which kill-chain stage does this represent?",
+            options: [
+                "Exploitation",
+                "Weaponization",
+                "Delivery",
+                "Reconnaissance"
+            ],
+            answer: 1
+        },
+        {
+            q: "An employee opens the malicious attachment and the exploit begins executing. Which stage of the kill chain is occurring?",
+            options: [
+                "Installation",
+                "Delivery",
+                "Actions on objectives",
+                "Exploitation"
+            ],
+            answer: 3
+        },
+        {
+            q: "A company's ISP contacts the SOC to report that malicious traffic appears to be originating from the company's network. What is the most appropriate interpretation?",
+            options: [
+                "External notifications should be ignored until an internal IDS confirms them",
+                "The report is a significant incident indicator that should be verified and investigated",
+                "The company should erase the suspected system before investigating",
+                "The ISP should immediately be given administrator access"
+            ],
+            answer: 1
+        }
+    ];
+
+    let currentMode = null;
+    let currentIndex = 0;
+    let score = 0;
+    let activeQuestions = [];
+    let isFlipped = false;
+    let selectedAnswer = null;
+
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function startMode(mode) {
+        currentMode = mode;
+        currentIndex = 0;
+        score = 0;
+        activeQuestions = shuffle([...questions]);
+        document.getElementById('menu').style.display = 'none';
+        render();
+    }
+
+    function render() {
+        const area = document.getElementById('app-area');
+        if (currentIndex >= activeQuestions.length) {
+            renderScorecard();
+            return;
+        }
+
+        const item = activeQuestions[currentIndex];
+
+        if (currentMode === 'flashcard') {
+            area.innerHTML = `
+                <div class="flashcard" onclick="toggleFlip()">
+                    <div class="side-label">${isFlipped ? 'Answer' : 'Question (Click to flip)'}</div>
+                    <div style="font-size: 1.1rem; font-weight: 500;">
+                        ${isFlipped ? '<strong>Correct Answer:</strong><br><br>' + item.options[item.answer] : item.q}
+                    </div>
+                </div>
+                <div class="nav-controls">
+                    <button class="secondary" onclick="prevCard()">Previous</button>
+                    <span>Card ${currentIndex + 1} of ${activeQuestions.length}</span>
+                    <button onclick="nextCard()">Next</button>
+                </div>
+            `;
+        } else if (currentMode === 'quiz') {
+            let optionsHTML = '';
+            item.options.forEach((opt, idx) => {
+                optionsHTML += `<button class="option-btn" id="opt-${idx}" onclick="selectQuizAnswer(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</button>`;
+            });
+
+            area.innerHTML = `
+                <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 10px;">Question ${currentIndex + 1} of ${activeQuestions.length}</div>
+                <div class="question-box">${item.q}</div>
+                <div class="options-list">${optionsHTML}</div>
+                <div class="nav-controls" id="quiz-nav" style="display: none;">
+                    <button onclick="nextQuizQuestion()">Next Question</button>
+                </div>
+            `;
+            selectedAnswer = null;
+        }
+    }
+
+    function toggleFlip() {
+        isFlipped = !isFlipped;
+        render();
+    }
+
+    function nextCard() {
+        isFlipped = false;
+        if (currentIndex < activeQuestions.length - 1) {
+            currentIndex++;
+            render();
+        } else {
+            alert("You've reached the end of the flashcard deck!");
+        }
+    }
+
+    function prevCard() {
+        isFlipped = false;
+        if (currentIndex > 0) {
+            currentIndex--;
+            render();
+        }
+    }
+
+    function selectQuizAnswer(selectedIdx) {
+        if (selectedAnswer !== null) return; // Prevent changing answer
+        selectedAnswer = selectedIdx;
+        const item = activeQuestions[currentIndex];
+
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach((btn, idx) => {
+            btn.disabled = true;
+            if (idx === item.answer) {
+                btn.classList.add('correct');
+            } else if (idx === selectedIdx) {
+                btn.classList.add('incorrect');
+            }
+        });
+
+        if (selectedIdx === item.answer) {
+            score++;
+        }
+
+        document.getElementById('quiz-nav').style.display = 'flex';
+    }
+
+    function nextQuizQuestion() {
+        currentIndex++;
+        render();
+    }
+
+    function renderScorecard() {
+        const area = document.getElementById('app-area');
+        const percentage = Math.round((score / activeQuestions.length) * 100);
+        area.innerHTML = `
+            <div class="scorecard">
+                <h2>Quiz Complete! 🎉</h2>
+                <p>Your Final Score:</p>
+                <h1 style="font-size: 3rem; margin: 10px 0;">${score} / ${activeQuestions.length}</h1>
+                <p style="font-size: 1.2rem; font-weight: bold; color: ${percentage >= 70 ? 'var(--success)' : 'var(--error)'};">Grade: ${percentage}%</p>
+                <br>
+                <button onclick="location.reload()">Try Again / Reshuffle</button>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html> -->
