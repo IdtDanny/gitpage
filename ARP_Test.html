@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>ARP Knowledge Check · 30 MCQs</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f0f4fc;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      padding: 1rem 0.75rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .quiz-container {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: #0b1d3a;
+      color: white;
+      border-radius: 2rem 2rem 1rem 1rem;
+      padding: 1.8rem 1.2rem 1.4rem;
+      box-shadow: 0 10px 20px rgba(0, 15, 40, 0.25);
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+      line-height: 1.2;
+    }
+
+    .header p {
+      font-size: 1rem;
+      opacity: 0.85;
+      font-weight: 400;
+      margin-top: 0.15rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      margin-top: 0.8rem;
+      backdrop-filter: blur(2px);
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+      border: 1px solid #e2e9f2;
+      font-weight: 500;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .stats-bar span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #1f2b48;
+    }
+
+    .score-badge {
+      background: #e4efff;
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      color: #0b1d3a;
+      font-weight: 600;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.6rem 1.3rem 1.3rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 18px -8px rgba(0, 20, 40, 0.1);
+      border: 1px solid #e9eef6;
+      transition: box-shadow 0.2s;
+    }
+
+    .q-header {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+      align-items: flex-start;
+    }
+
+    .q-num {
+      background: #0b1d3a;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 30px;
+      padding: 0.2rem 0.8rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .q-text {
+      font-weight: 600;
+      font-size: 1.05rem;
+      line-height: 1.45;
+      color: #0f1c33;
+      flex: 1;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 1rem 0 0.9rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: #f8fafd;
+      border: 1.5px solid #dee6f0;
+      border-radius: 1rem;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 0.96rem;
+      line-height: 1.4;
+      color: #1e2b44;
+    }
+
+    .option:hover {
+      background: #eef3fd;
+      border-color: #b8cbe0;
+    }
+
+    .option.selected {
+      background: #e2ecfe;
+      border-color: #0b1d3a;
+      box-shadow: 0 0 0 1px #0b1d3a;
+    }
+
+    .option.correct {
+      background: #d7f0e0;
+      border-color: #1f8b4c;
+      box-shadow: 0 0 0 1px #1f8b4c;
+    }
+
+    .option.wrong {
+      background: #ffe5e7;
+      border-color: #c22b3a;
+      box-shadow: 0 0 0 1px #c22b3a;
+    }
+
+    .option-letter {
+      font-weight: 700;
+      background: white;
+      border-radius: 30px;
+      width: 1.7rem;
+      height: 1.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid #cbd5e3;
+      color: #14213b;
+      font-size: 0.9rem;
+    }
+
+    .option.selected .option-letter {
+      background: #0b1d3a;
+      color: white;
+      border-color: #0b1d3a;
+    }
+
+    .option.correct .option-letter {
+      background: #1f8b4c;
+      color: white;
+      border-color: #1f8b4c;
+    }
+
+    .option.wrong .option-letter {
+      background: #c22b3a;
+      color: white;
+      border-color: #c22b3a;
+    }
+
+    .feedback {
+      margin-top: 0.8rem;
+      padding: 0.8rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      background: #f4f7fc;
+      border-left: 5px solid #a0b8d4;
+      color: #1e2e4a;
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct-fb {
+      background: #e2f3e8;
+      border-left-color: #1f8b4c;
+      color: #0b3720;
+    }
+
+    .feedback.wrong-fb {
+      background: #fde9eb;
+      border-left-color: #c22b3a;
+      color: #4e1420;
+    }
+
+    .feedback strong {
+      font-weight: 700;
+    }
+
+    .explanation {
+      margin-top: 0.5rem;
+      font-size: 0.88rem;
+      color: inherit;
+      opacity: 0.9;
+      font-style: italic;
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.8rem;
+      gap: 1rem;
+    }
+
+    .reset-btn {
+      background: white;
+      border: 2px solid #0b1d3a;
+      color: #0b1d3a;
+      padding: 0.8rem 2.2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .reset-btn:hover {
+      background: #0b1d3a;
+      color: white;
+    }
+
+    .note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #66738e;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.6rem;
+      }
+      .q-text {
+        font-size: 1rem;
+      }
+      .option {
+        font-size: 0.92rem;
+        padding: 0.8rem 0.8rem;
+      }
+      .question-card {
+        padding: 1.2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="header">
+      <h1>🔍 ARP Deep Dive</h1>
+      <p>Address Resolution Protocol · Mechanics · Security</p>
+      <div class="badge">30 MCQs · Scan & test yourself</div>
+    </div>
+
+    <div class="stats-bar">
+      <span>📋 <span id="answered-count">0</span> / 30 answered</span>
+      <span class="score-badge" id="score-display">✅ 0 correct</span>
+    </div>
+
+    <div id="quiz-root"></div>
+
+    <div class="footer-actions">
+      <button class="reset-btn" id="resetBtn">⟲ Reset quiz</button>
+    </div>
+    <div class="note">Tap an option to reveal answer & explanation</div>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- 30 ARP QUESTIONS ----------
+      const questions = [
+        // ---- Category 1: ARP Fundamentals & Addressing (4) ----
+        {
+          question: "Why does a host NOT issue an ARP request for a target IP address that resides on a remote network subnet?",
+          options: [
+            "Because remote hosts use 64-bit IPv6 MAC addresses.",
+            "Because Layer 2 physical broadcast frames cannot cross router boundaries; traffic must be framed to the local Default Gateway.",
+            "Because ARP packets are blocked by local operating system firewalls.",
+            "Because remote hosts automatically respond via DNS instead of ARP."
+          ],
+          correct: 1,
+          explanation: "ARP broadcasts are confined to a single LAN segment. Routers do not forward L2 broadcasts, so a host must ARP for its default gateway's MAC instead."
+        },
+        {
+          question: "What destination MAC address is placed in the Ethernet header of an ARP Request packet?",
+          options: [
+            "00:00:00:00:00:00",
+            "FF:FF:FF:FF:FF:FF (Layer 2 Broadcast)",
+            "The MAC address of the DNS server",
+            "127.0.0.1"
+          ],
+          correct: 1,
+          explanation: "ARP Requests are broadcast at Layer 2 using FF:FF:FF:FF:FF:FF so all nodes on the local segment receive and can evaluate the request."
+        },
+        {
+          question: "In an ARP Request packet payload, what value is placed in the 'Target Hardware Address' field?",
+          options: [
+            "FF:FF:FF:FF:FF:FF",
+            "All zeroes (00:00:00:00:00:00) because the address is unknown.",
+            "The MAC address of the requesting host",
+            "The subnet mask"
+          ],
+          correct: 1,
+          explanation: "The Target HW Address field is set to all zeroes in a request because the sender does not yet know the target's MAC address — that's the whole point of the query."
+        },
+        {
+          question: "What Operation Code (Opcode) value indicates an ARP Reply in an Ethernet/IPv4 ARP header?",
+          options: [
+            "Opcode 1",
+            "Opcode 2",
+            "Opcode 4",
+            "Opcode 255"
+          ],
+          correct: 1,
+          explanation: "Opcode 1 = ARP Request; Opcode 2 = ARP Reply. The reply swaps sender/target fields and fills in the target HW address."
+        },
+
+        // ---- Category 2: Processing Logic & RFC 826 State Rules (4) ----
+        {
+          question: "According to RFC 826, what does a receiving host do first when it extracts an incoming ARP packet?",
+          options: [
+            "Drops the packet if it is an unsolicited reply.",
+            "Checks if the Sender Protocol Address is already in its local cache, updating it if present.",
+            "Formats its own hard drive.",
+            "Sends an ICMP Echo Reply back to the sender."
+          ],
+          correct: 1,
+          explanation: "RFC 826 step (b): if the Sender Protocol Address is in the cache, update it with the Sender HW address and reset the timer. This is a 'free' way to refresh mappings."
+        },
+        {
+          question: "Why does an ARP host update its cache table with the requester's IP-MAC mapping upon receiving an ARP Request targeted at itself?",
+          options: [
+            "To prevent the requester from sending duplicate requests.",
+            "Because the requester is about to transmit data back, so pre-caching eliminates a reverse ARP broadcast.",
+            "Because it is required by TLS encryption standards.",
+            "To force the requester to renew its DHCP lease."
+          ],
+          correct: 1,
+          explanation: "If a host is the target of an ARP request, the requester is about to send it traffic. Pre-caching the requester's mapping avoids a reverse ARP broadcast later."
+        },
+        {
+          question: "What happens when a host receives an ARP Request where the Target Protocol Address does NOT match its own IP address?",
+          options: [
+            "It sends an ARP error message back.",
+            "It updates its cache if the sender is present, but does NOT generate an ARP Reply.",
+            "It forwards the frame to the nearest router.",
+            "It crashes the network interface card."
+          ],
+          correct: 1,
+          explanation: "RFC 826: update cache if sender is present (step b), but quit at step c if Target IP ≠ my IP. Only the intended target replies."
+        },
+        {
+          question: "What parameter determines how long an entry remains in an ARP cache before expiring?",
+          options: [
+            "The IP TTL (Time To Live) field",
+            "The OS-defined Cache Expiration Timer",
+            "The physical speed of the Ethernet cable",
+            "The TCP Window Size"
+          ],
+          correct: 1,
+          explanation: "Each OS defines its own ARP cache expiration timer (typically 30s–5min). When it expires, the entry is removed and a fresh ARP resolution is required."
+        },
+
+        // ---- Category 3: Gratuitous ARP & Advanced Features (4) ----
+        {
+          question: "Which of the following describes a Gratuitous ARP (GARP) request packet?",
+          options: [
+            "An ARP request sent to a public Google DNS server.",
+            "An ARP request where the Source IP and Target IP fields are identical.",
+            "An encrypted ARP reply used in IPsec VPNs.",
+            "An ARP reply containing an invalid checksum."
+          ],
+          correct: 1,
+          explanation: "A Gratuitous ARP is an ARP request where Src_IP == Target_IP (the host asks for its own IP). It's used for duplicate IP detection and cache updates."
+        },
+        {
+          question: "How does an Operating System utilize Gratuitous ARP for Address Conflict Detection (ACD)?",
+          options: [
+            "It broadcasts a query for its assigned IP upon boot; if a reply is received, another host is using that IP.",
+            "It blocks all incoming web traffic until a password is typed.",
+            "It changes its MAC address every 5 minutes.",
+            "It pings the default gateway continuously."
+          ],
+          correct: 0,
+          explanation: "At boot, the OS broadcasts a GARP for its own IP. If any reply comes back, the OS knows there's a duplicate IP and warns the user (IP Conflict)."
+        },
+        {
+          question: "In a High Availability (HA) firewall pair, how does Gratuitous ARP assist during a cluster failover?",
+          options: [
+            "It reboots the primary firewall.",
+            "It updates the MAC tables of connected network switches so traffic shifts instantly to the secondary firewall.",
+            "It encrypts all L2 frames using AES-256.",
+            "It disables all VLAN interfaces."
+          ],
+          correct: 1,
+          explanation: "When a VIP moves to the standby node, the new active firewall sends GARP to update switch MAC tables, so traffic immediately flows to the new owner."
+        },
+        {
+          question: "Why might an administrator run arp -d * or ip neigh flush all in a virtual lab (vinetctl) environment?",
+          options: [
+            "To wipe the operating system kernel.",
+            "To clear cached ARP entries and force fresh dynamic address resolution queries.",
+            "To restart the Network Interface Card drivers.",
+            "To change the host's static IP address."
+          ],
+          correct: 1,
+          explanation: "Flushing the ARP cache clears stale mappings and forces the host to re-resolve addresses, useful for lab experiments and troubleshooting."
+        },
+
+        // ---- Category 4: ARP Security & Exploitation (4) ----
+        {
+          question: "Why are standard Ethernet networks fundamentally vulnerable to ARP Cache Poisoning?",
+          options: [
+            "Because ARP lacks cryptographic authentication and accepts unverified replies.",
+            "Because ARP packets are too large for switch buffers.",
+            "Because routers refuse to forward ARP frames.",
+            "Because Wi-Fi networks do not support MAC addresses."
+          ],
+          correct: 0,
+          explanation: "ARP is stateless and unauthenticated. Hosts accept unsolicited ARP replies and overwrite valid cache entries — this is the root of poisoning attacks."
+        },
+        {
+          question: "In a Man-in-the-Middle (MitM) ARP attack against Hosts A and B, what false information does the attacker send to Host A?",
+          options: [
+            "That Host B's IP address maps to the Attacker's MAC address.",
+            "That Host A's IP address is invalid.",
+            "That the Default Gateway has been shut down.",
+            "That Host B has changed its IP address to 127.0.0.1."
+          ],
+          correct: 0,
+          explanation: "The attacker tells A that B's IP now maps to the attacker's MAC. Symmetrically, the attacker tells B that A's IP maps to the attacker's MAC, placing C in the middle."
+        },
+        {
+          question: "How can an attacker perform a Denial of Service (DoS) using ARP poisoning without leaving active socket connections open?",
+          options: [
+            "By mapping the target victim's Gateway IP to a non-existent (dead) MAC address.",
+            "By sending 10,000 HTTP GET requests per second.",
+            "By altering the target's DNS settings.",
+            "By physically disconnecting the router cable."
+          ],
+          correct: 0,
+          explanation: "Poisoning the gateway mapping with a dead MAC (e.g., 00:00:00:11:11:11) causes the switch to drop frames, blackholing the victim's traffic."
+        },
+        {
+          question: "How does ARP poisoning enable TCP Session Hijacking?",
+          options: [
+            "It cracks the victim's Wi-Fi password.",
+            "It allows the attacker to intercept TCP sequence numbers, DoS the victim, and take over the established connection.",
+            "It forces the web server to downgrade to HTTP 1.0.",
+            "It disables SSL certificates on the victim host."
+          ],
+          correct: 1,
+          explanation: "By MitM-ing the flow, the attacker observes TCP SEQ/ACK numbers, then DoSes the victim offline and impersonates it to continue the authenticated session."
+        },
+
+        // ---- Category 5: Cross-Subnet & Defenses (4) ----
+        {
+          question: "Can an attacker on a local subnet intercept traffic destined for a remote website across the Internet?",
+          options: [
+            "No, because ARP only works on local subnets.",
+            "Yes, by poisoning the victim's ARP cache entry for its Default Gateway.",
+            "No, because remote websites use HTTPS.",
+            "Yes, by changing the physical fiber cables under the ocean."
+          ],
+          correct: 1,
+          explanation: "The victim sends remote traffic to its default gateway. If the attacker poisons the gateway's IP→MAC mapping, all off-subnet traffic flows through the attacker."
+        },
+        {
+          question: "Which switch security feature prevents ARP poisoning by validating incoming ARP packets against a trusted binding database?",
+          options: [
+            "Port Fast",
+            "Dynamic ARP Inspection (DAI)",
+            "Spanning Tree Protocol (STP)",
+            "Access Control Lists (ACLs)"
+          ],
+          correct: 1,
+          explanation: "DAI inspects ARP packets on untrusted ports and drops them if the IP→MAC binding doesn't match the DHCP snooping binding table."
+        },
+        {
+          question: "What command utility is commonly used on Linux to inspect live ARP traffic on an interface during a lab exercise?",
+          options: [
+            "tcpdump -i eth0 arp",
+            "ping -arp",
+            "vinetctl --stop-all",
+            "netstat -route"
+          ],
+          correct: 0,
+          explanation: "tcpdump with the 'arp' filter captures ARP requests and replies on an interface — perfect for observing poisoning in a lab."
+        },
+        {
+          question: "Why does spamming unsolicited ARP replies bypass simple 'incomplete entry' defenses in modern OS kernels?",
+          options: [
+            "It triggers a hardware CPU overflow.",
+            "It creates a race condition where the attacker wins before legitimate replies arrive.",
+            "It forces the operating system to switch to IPv6.",
+            "It encrypts the kernel routing table."
+          ],
+          correct: 1,
+          explanation: "Some OSes only accept a reply if an incomplete entry exists. Flooding many unsolicited replies creates a race condition where the attacker's reply lands before the legitimate one."
+        },
+
+        // ---- Category 6: Advanced ARP Mechanics (from PDFs) (4) ----
+        {
+          question: "In an ARP Request, what value is placed in the 'Sender Hardware Address' field?",
+          options: [
+            "The MAC address of the default gateway",
+            "The MAC address of the requesting host",
+            "All zeros",
+            "The broadcast MAC address"
+          ],
+          correct: 1,
+          explanation: "The Sender HW Address is filled with the requesting host's own MAC so the target can unicast the reply directly back."
+        },
+        {
+          question: "When Host A wants to send an IP datagram to Host C on a remote subnet, which MAC address does Host A put in the Ethernet frame?",
+          options: [
+            "Host C's MAC address, obtained via ARP for Host C",
+            "The MAC address of the default gateway (router), obtained via ARP for the gateway IP",
+            "The broadcast MAC address FF:FF:FF:FF:FF:FF",
+            "The MAC address of the DNS server"
+          ],
+          correct: 1,
+          explanation: "Remote traffic must be framed to the default gateway's MAC. Host A cannot ARP for a remote IP because ARP broadcasts don't cross routers."
+        },
+        {
+          question: "In the ARP packet format, what does the 'HLEN' field specify?",
+          options: [
+            "The length of the entire ARP packet in bytes",
+            "The length of the hardware address in bytes (6 for Ethernet MAC)",
+            "The length of the IP header",
+            "The length of the payload data"
+          ],
+          correct: 1,
+          explanation: "HLEN = Hardware address length in bytes. For Ethernet, HLEN = 6 (48-bit MAC). PLEN = Protocol address length (4 for IPv4)."
+        },
+        {
+          question: "What happens at the ARP cache level when a host receives an ARP Reply to a request it sent?",
+          options: [
+            "The host immediately forwards the reply to the router.",
+            "The host updates its ARP cache with the IP-MAC mapping from the reply and starts a timer.",
+            "The host discards the reply because it was already expecting it.",
+            "The host sends another ARP request to confirm."
+          ],
+          correct: 1,
+          explanation: "On receiving a valid ARP Reply, the host extracts the HW address, stores the IP→MAC mapping in its ARP cache, and starts an expiration timer."
+        },
+
+        // ---- Additional questions from PDF content (6) ----
+        {
+          question: "Which of the following best describes the primary purpose of the ARP cache?",
+          options: [
+            "To store DNS records for local hosts",
+            "To temporarily store IP-to-MAC address mappings, reducing the need for repeated broadcast requests",
+            "To encrypt ARP packets for security",
+            "To route packets between different subnets"
+          ],
+          correct: 1,
+          explanation: "The ARP cache temporarily stores resolved IP→MAC mappings so hosts don't need to broadcast an ARP request for every packet."
+        },
+        {
+          question: "In a switched Ethernet network, why can ARP cache poisoning enable eavesdropping that would otherwise be impossible?",
+          options: [
+            "Because switches forward all frames to all ports by default",
+            "Because the attacker convinces victims to send their traffic through the attacker's MAC address",
+            "Because ARP poisoning disables switch MAC learning",
+            "Because ARP packets are always broadcast to all VLANs"
+          ],
+          correct: 1,
+          explanation: "A switch normally only forwards frames to the correct port. By poisoning ARP caches, the attacker makes victims send frames to the attacker's port, enabling sniffing."
+        },
+        {
+          question: "Which ARP field in a request would a receiving host compare against its own IP address to determine if it should reply?",
+          options: [
+            "Sender Protocol Address",
+            "Target Protocol Address",
+            "Sender Hardware Address",
+            "Operation Code"
+          ],
+          correct: 1,
+          explanation: "The Target Protocol Address field contains the IP the requester is looking for. If it matches the receiver's IP, the receiver should reply."
+        },
+        {
+          question: "What is the key difference between an ARP Request and an ARP Reply in terms of addressing at Layer 2?",
+          options: [
+            "Requests use unicast, replies use broadcast",
+            "Requests use broadcast (FF:FF:FF:FF:FF:FF), replies use unicast to the requester's MAC",
+            "Both use broadcast",
+            "Both use multicast"
+          ],
+          correct: 1,
+          explanation: "ARP Requests are broadcast to reach all local hosts; ARP Replies are unicast directly back to the requester's MAC address."
+        },
+        {
+          question: "How does Dynamic ARP Inspection (DAI) on a switch mitigate ARP poisoning?",
+          options: [
+            "It encrypts all ARP packets",
+            "It validates ARP packets against a DHCP snooping binding table and drops invalid mappings",
+            "It blocks all ARP traffic on the switch",
+            "It requires ARP packets to use IPv6"
+          ],
+          correct: 1,
+          explanation: "DAI intercepts ARP packets and checks IP→MAC bindings against the DHCP snooping database. Invalid or spoofed ARP packets are dropped."
+        },
+        {
+          question: "In the context of ARP, why is a static ARP entry for the default gateway considered a security best practice on critical hosts?",
+          options: [
+            "It improves network speed by avoiding broadcasts",
+            "It prevents an attacker from poisoning the gateway mapping, as static entries cannot be overwritten by ARP replies",
+            "It is required for IPv6 compatibility",
+            "It encrypts all gateway traffic"
+          ],
+          correct: 1,
+          explanation: "A static ARP entry for the gateway can't be overwritten by dynamic ARP replies, protecting against gateway-spoofing MitM attacks."
+        }
+      ];
+
+      // State: per question { selected: index|null, revealed: bool }
+      let userState = questions.map(() => ({ selected: null, revealed: false }));
+
+      const quizRoot = document.getElementById('quiz-root');
+      const answeredCountSpan = document.getElementById('answered-count');
+      const scoreDisplay = document.getElementById('score-display');
+
+      function renderAll() {
+        quizRoot.innerHTML = '';
+        questions.forEach((q, idx) => {
+          const card = document.createElement('div');
+          card.className = 'question-card';
+          card.dataset.qIndex = idx;
+
+          // header
+          const qHeader = document.createElement('div');
+          qHeader.className = 'q-header';
+          const qNum = document.createElement('div');
+          qNum.className = 'q-num';
+          qNum.textContent = `${idx + 1}`;
+          const qText = document.createElement('div');
+          qText.className = 'q-text';
+          qText.textContent = q.question;
+          qHeader.appendChild(qNum);
+          qHeader.appendChild(qText);
+          card.appendChild(qHeader);
+
+          // options
+          const optionsContainer = document.createElement('div');
+          optionsContainer.className = 'options';
+
+          q.options.forEach((optText, optIdx) => {
+            const optDiv = document.createElement('div');
+            optDiv.className = 'option';
+            if (userState[idx].revealed && userState[idx].selected !== null) {
+              if (optIdx === q.correct) {
+                optDiv.classList.add('correct');
+              } else if (optIdx === userState[idx].selected) {
+                optDiv.classList.add('wrong');
+              }
+            } else if (userState[idx].selected === optIdx) {
+              optDiv.classList.add('selected');
+            }
+
+            const letter = document.createElement('span');
+            letter.className = 'option-letter';
+            letter.textContent = String.fromCharCode(65 + optIdx);
+
+            const textSpan = document.createElement('span');
+            textSpan.textContent = optText;
+
+            optDiv.appendChild(letter);
+            optDiv.appendChild(textSpan);
+
+            optDiv.addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (userState[idx].revealed) return;
+              userState[idx].selected = optIdx;
+              userState[idx].revealed = true;
+              renderAll();
+              updateStats();
+            });
+
+            optionsContainer.appendChild(optDiv);
+          });
+
+          card.appendChild(optionsContainer);
+
+          // feedback
+          if (userState[idx].revealed) {
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback show';
+            const isCorrect = userState[idx].selected === q.correct;
+            if (isCorrect) {
+              feedback.classList.add('correct-fb');
+            } else {
+              feedback.classList.add('wrong-fb');
+            }
+
+            const mainMsg = document.createElement('div');
+            if (isCorrect) {
+              mainMsg.innerHTML = '<strong>✅ Correct!</strong>';
+            } else {
+              const correctLetter = String.fromCharCode(65 + q.correct);
+              const chosenLetter = String.fromCharCode(65 + userState[idx].selected);
+              mainMsg.innerHTML = `<strong>❌ Incorrect.</strong> Correct answer: ${correctLetter}`;
+            }
+
+            const expDiv = document.createElement('div');
+            expDiv.className = 'explanation';
+            expDiv.textContent = q.explanation;
+
+            feedback.appendChild(mainMsg);
+            feedback.appendChild(expDiv);
+            card.appendChild(feedback);
+          }
+
+          quizRoot.appendChild(card);
+        });
+
+        updateStats();
+      }
+
+      function updateStats() {
+        const answered = userState.filter(s => s.revealed).length;
+        const correct = userState.reduce((acc, s, idx) => {
+          return acc + (s.revealed && s.selected === questions[idx].correct ? 1 : 0);
+        }, 0);
+
+        answeredCountSpan.textContent = answered;
+        scoreDisplay.textContent = `✅ ${correct} correct`;
+      }
+
+      function resetQuiz() {
+        userState = questions.map(() => ({ selected: null, revealed: false }));
+        renderAll();
+      }
+
+      renderAll();
+      document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+
+    })();
+  </script>
+</body>
+</html>
